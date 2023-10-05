@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
  */
+Route::inertia('/login', 'Login')->name('login');
+Route::post('/login', [LoginController::class, 'store']);
+Route::post('/logout', [LoginController::class, 'destroy']);
 
-Route::inertia('login', 'Login');
-Route::inertia('/', 'Dashboard');
-Route::post('login', [LoginController::class, 'store']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::inertia('/', 'Dashboard');
+});

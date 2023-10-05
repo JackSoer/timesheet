@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <main class="login">
     <Head title="Login" />
     <PrimaryForm
       :title="'Login'"
@@ -10,37 +10,46 @@
         :label="'Login'"
         v-model="credentials.name"
       />
-      <p class="error" v-if="errors.name">{{ errors.name }}</p>
+      <p class="error" v-if="errors?.name">{{ errors.name }}</p>
       <PrimaryInput
         :inputProps="{ id: 'password', type: 'password', required: true }"
         :label="'Password'"
         v-model="credentials.password"
       />
-      <p class="error" v-if="errors.password">{{ errors.password }}</p>
+      <p class="error" v-if="errors?.password">{{ errors.password }}</p>
       <PrimaryButton
         :class="'login__btn'"
         :btnProps="{ disabled: credentials.processing }"
         >Log In</PrimaryButton
       >
-      <p class="error error-center" v-if="errors.login">{{ errors.login }}</p>
-      <p class="error error-center" v-if="errors.email">{{ errors.email }}</p>
+      <p class="error error-center" v-if="errors?.login">{{ errors.login }}</p>
+      <p class="error error-center" v-if="errors?.email">{{ errors.email }}</p>
     </PrimaryForm>
-  </div>
+  </main>
 </template>
 
 <script setup>
 import PrimaryForm from "../components/UI/PrimaryForm.vue";
 import PrimaryInput from "../components/UI/PrimaryInput.vue";
 import PrimaryButton from "../components/UI/PrimaryButton.vue";
-import { useForm, Head } from "@inertiajs/vue3";
+import { useForm, Head, usePage } from "@inertiajs/vue3";
+import { onMounted } from "vue";
+const page = usePage();
 
 const credentials = useForm({
   name: "",
   password: "",
 });
 
-const { errors } = defineProps({
-  errors: Object,
+let { errors } = defineProps({
+  errors: {
+    type: Object,
+    default: null,
+  },
+});
+
+onMounted(() => {
+  page.props.errors = null;
 });
 </script>
 
