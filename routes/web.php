@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +16,10 @@ use Illuminate\Support\Facades\Route;
  */
 Route::inertia('/login', 'Login')->name('login');
 Route::post('/login', [LoginController::class, 'store']);
-Route::post('/logout', [LoginController::class, 'destroy']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::inertia('/', 'Dashboard');
+    Route::resource('/clients', ClientController::class);
+    Route::post('/logout', [LoginController::class, 'destroy']);
+    Route::post('/change-password', [LoginController::class, 'changePassword']);
 });

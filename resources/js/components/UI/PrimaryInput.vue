@@ -10,6 +10,7 @@
       :value="modelValue"
       @input="handleInput"
     />
+    <p class="error" v-if="error">{{ error }}</p>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ const { label, inputProps } = defineProps({
   label: String,
   inputProps: Object,
   modelValue: String,
+  error: String,
 });
 const emit = defineEmits(["update:modelValue"]);
 
@@ -38,6 +40,7 @@ const handleInput = (e) => {
     width: 100%;
     font-size: 16px;
     padding: 6px;
+    outline: 1px solid lightgray;
 
     &:focus {
       outline: 1px solid $mainBorder;

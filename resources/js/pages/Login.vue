@@ -9,14 +9,14 @@
         :inputProps="{ id: 'login', required: true, autofocus: true }"
         :label="'Login'"
         v-model="credentials.name"
+        :error="errors?.name"
       />
-      <p class="error" v-if="errors?.name">{{ errors.name }}</p>
       <PrimaryInput
         :inputProps="{ id: 'password', type: 'password', required: true }"
         :label="'Password'"
         v-model="credentials.password"
+        :error="errors?.password"
       />
-      <p class="error" v-if="errors?.password">{{ errors.password }}</p>
       <PrimaryButton
         :class="'login__btn'"
         :btnProps="{ disabled: credentials.processing }"

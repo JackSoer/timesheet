@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
+use App\Models\Client;
 
 class ClientController extends Controller
 {
@@ -13,7 +13,9 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::all();
+
+        return inertia('Clients', compact('clients'));
     }
 
     /**
@@ -61,6 +63,6 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
     }
 }

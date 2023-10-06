@@ -8,18 +8,37 @@
     </menu>
     <menu class="navbar__user-menu">
       <div class="navbar__user-info">
-        <img src="" alt="Avatar" class="navbar__user-img" />
+        <img
+          src="/images/defAvatar.jpg"
+          alt="Avatar"
+          class="navbar__user-img"
+        />
         <p class="navbar__username">{{ $page.props?.user?.login }}</p>
       </div>
       <div class="navbar__user-btns">
-        <PrimaryButton class="navbar__user-btn">Change password</PrimaryButton>
+        <PrimaryButton
+          class="navbar__user-btn"
+          @click="isChangingPassword = true"
+          v-if="!isChangingPassword"
+          >Change password</PrimaryButton
+        >
+        <ChangePasswordForm
+          v-if="isChangingPassword"
+          @cancel="isChangingPassword = false"
+        />
         <Link
           href="/logout"
           class="navbar__user-logout"
           method="post"
           as="button"
+          @click="isLoggingOut = true"
         >
-          <PrimaryButton class="navbar__user-btn">Logout</PrimaryButton>
+          <PrimaryButton
+            class="navbar__user-btn"
+            :class="isLoggingOut ? 'navbar__user-btn__disabled' : null"
+            :btnProps="{ disabled: isLoggingOut }"
+            >Logout</PrimaryButton
+          >
         </Link>
       </div>
     </menu>
@@ -29,6 +48,11 @@
 <script setup>
 import PrimaryButton from "./UI/PrimaryButton.vue";
 import { Link } from "@inertiajs/vue3";
+import { ref } from "vue";
+import ChangePasswordForm from "./ChangePasswordForm.vue";
+
+const isLoggingOut = ref(false);
+const isChangingPassword = ref(false);
 </script>
 
 <style lang="scss" scoped>
@@ -42,6 +66,20 @@ import { Link } from "@inertiajs/vue3";
 
   background-color: $mainTextColor;
   display: flex;
+
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  &__user-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
 
   &__username {
     color: white;
@@ -74,13 +112,22 @@ import { Link } from "@inertiajs/vue3";
     border: 2px solid white;
     color: white;
     width: 100%;
-    font-size: 18px;
-    padding: 8px;
+    font-size: 16px;
+    padding: 5px 8px;
+    font-weight: 700;
 
     &:hover {
       border: 2px solid $mainBorder;
       color: $mainTextColor;
       background-color: white;
+    }
+
+    &__disabled {
+      &:hover {
+        border: 2px solid white;
+        color: white;
+        background-color: transparent;
+      }
     }
   }
 
@@ -90,12 +137,12 @@ import { Link } from "@inertiajs/vue3";
 
   &__link {
     font-size: 23px;
-    color: $mainBorder;
+    color: white;
     transition: all 0.3s ease;
     font-weight: 500;
 
     &:hover {
-      color: white;
+      color: $mainBorder;
     }
   }
 }
