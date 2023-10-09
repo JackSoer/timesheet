@@ -4,17 +4,19 @@
     <div class="container">
       <div class="clients__top">
         <h1 class="clients__title">Clients</h1>
-        <Link href="/add-client" class="clients__add">
-          <AddBtn />
-        </Link>
+        <Link href="/clients/create" class="clients__add"><AddBtn /></Link>
       </div>
       <PrimaryTable
         :headers="['Name', 'Rate', 'Status', 'Actions']"
         v-if="clients.length"
       >
-        <ClientRow v-for="client in clients" :client="client" />
+        <ClientRow
+          v-for="client in clients"
+          :client="client"
+          :key="client.id"
+        />
       </PrimaryTable>
-      <p class="clients__not-found" v-else>0 clients</p>
+      <p class="clients__not-found" v-else>Clients not found</p>
     </div>
   </div>
 </template>
@@ -31,8 +33,9 @@ const { clients } = defineProps({
 </script>
 
 <style lang="scss" scoped>
+@import "../../scss/var";
 .clients {
-  padding: 15px 0;
+  padding: 35px 0;
 
   &__title {
     font-size: 40px;
@@ -53,12 +56,13 @@ const { clients } = defineProps({
     text-align: center;
     font-size: 30px;
     font-weight: 500;
+    color: black;
   }
 
   &__add {
     position: absolute;
     right: 0;
-    bottom: -8px;
+    bottom: 0;
   }
 }
 </style>

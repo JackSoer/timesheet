@@ -23,7 +23,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('AddClient');
     }
 
     /**
@@ -31,7 +31,9 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        Client::create($request->all());
+
+        return redirect('/clients');
     }
 
     /**
@@ -47,7 +49,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return inertia('EditClient', compact('client'));
     }
 
     /**

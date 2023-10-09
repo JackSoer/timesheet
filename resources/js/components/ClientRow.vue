@@ -11,14 +11,10 @@
     </td>
     <td class="client-row__item">
       <EditBtn />
-      <Link
-        as="button"
-        :href="`/clients/${client.id}`"
-        method="delete"
-        :disabled="pageIsLoading"
-      >
-        <DeleteBtn :btnProps="{ disabled: pageIsLoading }" />
-      </Link>
+      <DeleteBtn
+        @click="destroy(client.id)"
+        :btnProps="{ disabled: deleteIsLoading }"
+      />
     </td>
   </tr>
 </template>
@@ -26,8 +22,10 @@
 <script setup>
 import DeleteBtn from "./DeleteBtn.vue";
 import EditBtn from "./EditBtn.vue";
-import { Link, router } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
+import { router } from "@inertiajs/vue3";
+import { ref } from "vue";
+
+const deleteIsLoading = ref(false);
 
 const { client } = defineProps({
   client: {
@@ -36,12 +34,11 @@ const { client } = defineProps({
   },
 });
 
-const pageIsLoading = ref(false);
+const destroy = async (id) => {
+  deleteIsLoading.value = true;
 
-onMounted(() => {
-  router.on("start", () => (pageIsLoading.value = true));
-  router.on("finish", () => (pageIsLoading.value = false));
-});
+  router.delete(`/clients/${id}`);
+};
 </script>
 
 <style lang="scss" scoped>

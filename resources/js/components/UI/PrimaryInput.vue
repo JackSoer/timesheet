@@ -9,22 +9,30 @@
       v-bind="inputProps"
       :value="modelValue"
       @input="handleInput"
+      @blur="handleBlur"
     />
-    <p class="error" v-if="error">{{ error }}</p>
+    <div class="errors">
+      <p class="error" v-if="errors.length" v-for="error in errors">
+        {{ error.$message }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-const { label, inputProps } = defineProps({
+const { label, inputProps, errors, handleBlur } = defineProps({
   label: String,
   inputProps: Object,
   modelValue: String,
-  error: String,
+  errors: Array,
+  handleBlur: Function,
 });
 const emit = defineEmits(["update:modelValue"]);
 
 const handleInput = (e) => {
-  emit("update:modelValue", e.target.value);
+  let value = e.target.value;
+
+  emit("update:modelValue", value);
 };
 </script>
 
@@ -50,5 +58,11 @@ const handleInput = (e) => {
   &__label {
     font-size: 12px;
   }
+}
+
+.errors {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 </style>
