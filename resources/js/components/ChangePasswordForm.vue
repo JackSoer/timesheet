@@ -11,7 +11,7 @@
         id: 'current-password',
         required: true,
       }"
-      :error="errors?.currentPassword"
+      :errors="[errors?.currentPassword]"
     />
     <PrimaryInput
       v-model="credentials.newPassword"
@@ -21,7 +21,7 @@
         id: 'new-password',
         required: true,
       }"
-      :error="errors?.newPassword"
+      :errors="[errors?.newPassword]"
     />
     <div class="change-pswrd__btns">
       <PrimaryButton

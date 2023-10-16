@@ -1,9 +1,29 @@
 <template>
-  <div class="navbar">
+  <PrimaryButton
+    class="navbar__user-btn navbar__btn"
+    :class="{ 'navbar__btn-close': !isOpen }"
+    @click="isOpen = !isOpen"
+    ><div class="navbar__btn-lines">
+      <div
+        class="navbar__btn-line"
+        :class="{ 'navbar__btn-first-line': isOpen }"
+      ></div>
+      <div
+        class="navbar__btn-line"
+        :class="{ 'navbar__btn-second-line': isOpen }"
+      ></div>
+      <div
+        class="navbar__btn-line"
+        :class="{ 'navbar__btn-third-line': isOpen }"
+      ></div>
+    </div>
+  </PrimaryButton>
+  <div class="navbar" :class="{ 'navbar--active': isOpen }">
     <menu class="navbar__nav-menu">
+      <Link class="navbar__link" href="/">Dashboard</Link>
       <Link class="navbar__link" href="/clients">Clients</Link>
-      <Link class="navbar__link" href="/developers">Developers</Link>
       <Link class="navbar__link" href="/projects">Projects</Link>
+      <Link class="navbar__link" href="/developers">Developers</Link>
       <Link class="navbar__link" href="/work-logs">Work Logs</Link>
     </menu>
     <menu class="navbar__user-menu">
@@ -53,10 +73,27 @@ import ChangePasswordForm from "./ChangePasswordForm.vue";
 
 const isLoggingOut = ref(false);
 const isChangingPassword = ref(false);
+const isOpen = ref(false);
 </script>
 
 <style lang="scss" scoped>
 @import "../../scss/var";
+
+.open-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-color: $mainBorder;
+  border-radius: 0;
+
+  &__line {
+    width: 15px;
+  }
+
+  &:hover {
+    background-color: transparent;
+  }
+}
 .navbar {
   position: fixed;
   top: 0;
@@ -66,6 +103,12 @@ const isChangingPassword = ref(false);
 
   background-color: $mainTextColor;
   display: flex;
+  transform: translateX(-100%);
+  transition: 0.3s all ease;
+
+  &--active {
+    transform: translateX(0);
+  }
 
   &__user-info {
     display: flex;
@@ -93,7 +136,7 @@ const isChangingPassword = ref(false);
     flex-direction: column;
     gap: 15px;
     align-items: center;
-    padding: 20px;
+    padding: 60px 20px 20px 20px;
   }
 
   &__user-logout {
@@ -143,6 +186,68 @@ const isChangingPassword = ref(false);
 
     &:hover {
       color: $mainBorder;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    z-index: 8000;
+    border-radius: 0;
+    border-color: $mainBorder;
+    background-color: white;
+    color: $mainTextColor;
+    transition: 0.3s all ease;
+    padding: 0;
+
+    &:hover {
+      background-color: $mainBorder;
+      color: white;
+
+      .navbar__btn-line {
+        background-color: rgb(214, 0, 0);
+      }
+    }
+
+    &-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    &-line {
+      width: 100%;
+      height: 5px;
+      background-color: $mainTextColor;
+      transition: 0.3s all ease;
+    }
+
+    &-close {
+      border: none;
+
+      &:hover {
+        background-color: transparent;
+        border: none;
+      }
+    }
+
+    &-first-line {
+      transform: rotate(45deg);
+      position: relative;
+      top: 9px;
+    }
+
+    &-second-line {
+      opacity: 0;
+    }
+
+    &-third-line {
+      transform: rotate(-45deg);
+      position: relative;
+      top: -9px;
     }
   }
 }

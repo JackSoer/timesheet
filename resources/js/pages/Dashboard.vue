@@ -1,9 +1,7 @@
 <template>
-  <Head title="Dashboard" />
   <PrimaryLayout>
-    <main class="dashboard">
-      
-    </main>
+    <Head title="Dashboard" />
+    <main class="dashboard"></main>
   </PrimaryLayout>
 </template>
 

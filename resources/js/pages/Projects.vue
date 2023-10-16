@@ -1,23 +1,23 @@
 <template>
   <PrimaryLayout>
-    <main class="clients">
-      <Head title="Clients" />
+    <main class="projects">
+      <Head title="Projects" />
       <div class="container">
-        <div class="clients__top">
-          <h1 class="clients__title">Clients</h1>
-          <Link href="/clients/create" class="clients__add"><AddBtn /></Link>
+        <div class="projects__top">
+          <h1 class="projects__title">Projects</h1>
+          <Link href="/projects/create" class="projects__add"><AddBtn /></Link>
         </div>
         <PrimaryTable
-          :headers="['Name', 'Rate', 'Status', 'Actions']"
-          v-if="clients.length"
+          :headers="['Name', 'Project', 'Rate', 'Status', 'Actions']"
+          v-if="projects.length"
         >
-          <ClientRow
-            v-for="client in clients.slice().reverse()"
-            :client="client"
-            :key="client.id"
+          <ProjectRow
+            v-for="project in projects.slice().reverse()"
+            :project="project"
+            :key="project.id"
           />
         </PrimaryTable>
-        <p class="clients__not-found" v-else>Clients not found</p>
+        <p class="projects__not-found" v-else>Projects not found</p>
       </div>
     </main>
   </PrimaryLayout>
@@ -25,13 +25,13 @@
 
 <script setup>
 import PrimaryTable from "@/components/UI/PrimaryTable.vue";
-import ClientRow from "@/components/ClientRow.vue";
+import ProjectRow from "@/components/ProjectRow.vue";
 import AddBtn from "@/components/AddBtn.vue";
 import { Link, Head } from "@inertiajs/vue3";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
-const { clients } = defineProps({
-  clients: {
+const { projects } = defineProps({
+  projects: {
     type: Array,
     required: true,
   },
@@ -40,7 +40,7 @@ const { clients } = defineProps({
 
 <style lang="scss" scoped>
 @import "../../scss/var";
-.clients {
+.projects {
   padding: 35px 0;
 
   &__title {

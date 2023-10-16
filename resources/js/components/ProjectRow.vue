@@ -1,20 +1,23 @@
 <template>
-  <tr class="client-row">
-    <td class="client-row__item">
-      <p class="client-row__text">{{ client.name }}</p>
+  <tr class="project-row">
+    <td class="project-row__item">
+      <p class="project-row__text">{{ project.name }}</p>
     </td>
-    <td class="client-row__item">
-      <p class="client-row__text">{{ client.rate }}</p>
+    <td class="project-row__item">
+      <p class="project-row__text">{{ project.client.name }}</p>
     </td>
-    <td class="client-row__item">
-      <p class="client-row__text">
-        {{ client.status ? "Active" : "Inactive" }}
+    <td class="project-row__item">
+      <p class="project-row__text">{{ project.rate }}</p>
+    </td>
+    <td class="project-row__item">
+      <p class="project-row__text">
+        {{ project.status ? "Active" : "Inactive" }}
       </p>
     </td>
-    <td class="client-row__item">
-      <Link :href="`/clients/${client.id}/edit`"><EditBtn /></Link>
+    <td class="project-row__item">
+      <Link :href="`/projects/${project.id}/edit`"><EditBtn /></Link>
       <DeleteBtn
-        @click="destroy(client.id)"
+        @click="destroy(project.id)"
         :btnProps="{ disabled: deleteIsLoading }"
       />
     </td>
@@ -29,8 +32,8 @@ import { ref } from "vue";
 
 const deleteIsLoading = ref(false);
 
-const { client } = defineProps({
-  client: {
+const { project } = defineProps({
+  project: {
     type: Object,
     require: true,
   },
@@ -39,12 +42,12 @@ const { client } = defineProps({
 const destroy = async (id) => {
   deleteIsLoading.value = true;
 
-  router.delete(`/clients/${id}`);
+  router.delete(`/projects/${id}`);
 };
 </script>
 
 <style lang="scss" scoped>
-.client-row {
+.project-row {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

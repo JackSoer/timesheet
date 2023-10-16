@@ -1,44 +1,55 @@
 <template>
-  <main class="add-client">
-    <Head title="Add client" />
+  <main class="edit-client">
+    <Head title="Edit client" />
     <ClientForm
+      title="Edit Client"
       @update="handleChange"
       :handleSubmit="handleSubmit"
       :isLoading="client.processing"
-      title="Add Client"
-      btnText="Add"
+      :defaultClient="client"
+      btnText="Edit"
+      :withStatus="true"
     />
   </main>
 </template>
 
 <script setup>
 import ClientForm from "@/components/ClientForm.vue";
-import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
-let client = useForm({
-  name: "",
-  rate: "",
+const { defaultClient } = defineProps({
+  defaultClient: {
+    type: Object,
+    required: true,
+  },
 });
 
-let isValid = false;
+const formattedDefaultClient =
+  defaultClient.rate === null ? { ...defaultClient, rate: "" } : defaultClient;
+
+let client = useForm(formattedDefaultClient);
+
+let isValid = true;
 
 const handleChange = (newClient, isValidClient) => {
   client.name = newClient.name;
   client.rate = newClient.rate;
+  client.status = newClient.status;
 
   isValid = isValidClient;
 };
 
 const handleSubmit = () => {
   if (isValid) {
-    client.post("/clients");
+    console.log(Boolean(client.status));
+    client.put(`/clients/${client.id}`);
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.add-client {
+.edit-client {
   padding: 35px 0;
   width: 100%;
   min-height: 100vh;

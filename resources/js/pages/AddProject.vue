@@ -1,44 +1,44 @@
 <template>
-  <main class="add-client">
-    <Head title="Add client" />
-    <ClientForm
+  <main class="add-project">
+    <Head title="Add project" />
+    <ProjectForm
       @update="handleChange"
       :handleSubmit="handleSubmit"
-      :isLoading="client.processing"
-      title="Add Client"
+      :isLoading="project.processing"
+      title="Add project"
       btnText="Add"
     />
   </main>
 </template>
 
 <script setup>
-import ClientForm from "@/components/ClientForm.vue";
+import ProjectForm from "@/components/ProjectForm.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 
-let client = useForm({
+let project = useForm({
   name: "",
   rate: "",
 });
 
 let isValid = false;
 
-const handleChange = (newClient, isValidClient) => {
-  client.name = newClient.name;
-  client.rate = newClient.rate;
+const handleChange = (newProject, isValidProject) => {
+  project.name = newProject.name;
+  project.rate = newProject.rate;
 
-  isValid = isValidClient;
+  isValid = isValidProject;
 };
 
 const handleSubmit = () => {
   if (isValid) {
-    client.post("/clients");
+    project.post("/projects");
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.add-client {
+.add-project {
   padding: 35px 0;
   width: 100%;
   min-height: 100vh;

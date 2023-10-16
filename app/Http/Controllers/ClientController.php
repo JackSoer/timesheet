@@ -37,19 +37,11 @@ class ClientController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Client $client)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Client $client)
     {
-        return inertia('EditClient', compact('client'));
+        return inertia('EditClient', ['defaultClient' => $client]);
     }
 
     /**
@@ -57,7 +49,9 @@ class ClientController extends Controller
      */
     public function update(UpdateClientRequest $request, Client $client)
     {
-        //
+        $client->update($request->all());
+
+        return redirect('/clients');
     }
 
     /**

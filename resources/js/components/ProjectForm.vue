@@ -5,16 +5,16 @@
       :inputProps="{
         autofocus: true,
         required: true,
-        placeholder: 'Jack',
+        placeholder: 'Game shop site',
         id: 'name',
       }"
-      v-model.trim="client.name"
+      v-model.trim="project.name"
       :errors="v$.name.$errors"
       :handleBlur="v$.name.$touch"
     />
     <PrimaryInput
       label="Rate"
-      v-model.trim="client.rate"
+      v-model.trim="project.rate"
       :inputProps="{ placeholder: '99999.99', id: 'rate' }"
       :errors="v$.rate.$errors"
       :handleBlur="v$.rate.$touch"
@@ -41,9 +41,9 @@ import { helpers, required, maxLength } from "@vuelidate/validators";
 import PrimaryButton from "./UI/PrimaryButton.vue";
 import Toggle from "./Toggle.vue";
 
-const { defaultClient, handleSubmit, btnText, title, isLoading, withStatus } =
+const { defaultProject, handleSubmit, btnText, title, isLoading, withStatus } =
   defineProps({
-    defaultClient: {
+    defaultProject: {
       type: Object,
       default: {
         name: "",
@@ -62,13 +62,13 @@ const { defaultClient, handleSubmit, btnText, title, isLoading, withStatus } =
 
 const emit = defineEmits(["update"]);
 
-const defaultClientCopy = JSON.parse(JSON.stringify(defaultClient));
+const defaultProjectCopy = JSON.parse(JSON.stringify(defaultProject));
 
-const client = reactive(defaultClientCopy);
+const project = reactive(defaultProjectCopy);
 
 const values = [
-  { value: 1, label: "Active", checked: client.status ? true : false },
-  { value: 0, label: "Inactive", checked: !client.status ? true : false },
+  { value: 1, label: "Active", checked: project.status ? true : false },
+  { value: 0, label: "Inactive", checked: !project.status ? true : false },
 ];
 
 const validateRate = (value) => {
@@ -80,7 +80,7 @@ const validateRate = (value) => {
 };
 
 const handleChangeStatus = (selectedValue) => {
-  client.status = selectedValue;
+  project.status = selectedValue;
 };
 
 const rules = {
@@ -93,11 +93,11 @@ const rules = {
   },
 };
 
-const v$ = useVuelidate(rules, client);
+const v$ = useVuelidate(rules, project);
 
-watch(client, async () => {
+watch(project, async () => {
   const isValid = await v$.value.$validate();
-  emit("update", client, isValid);
+  emit("update", project, isValid);
 });
 </script>
 

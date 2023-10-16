@@ -1,6 +1,6 @@
 <template>
   <div class="primary-input">
-    <label :for="inputProps?.id" class="primary-input__label">{{
+    <label :for="inputProps?.id" class="primary-input__label" v-if="label">{{
       label
     }}</label>
     <input
@@ -11,16 +11,16 @@
       @input="handleInput"
       @blur="handleBlur"
     />
-    <div class="errors">
-      <p class="error" v-if="errors.length" v-for="error in errors">
-        {{ error.$message }}
+    <div class="errors" v-if="errors?.length">
+      <p class="error" v-for="error in errors">
+        {{ error?.$message || error }}
       </p>
     </div>
   </div>
 </template>
 
 <script setup>
-const { label, inputProps, errors, handleBlur } = defineProps({
+const { label, inputProps, errors, handleBlur, modelValue } = defineProps({
   label: String,
   inputProps: Object,
   modelValue: String,

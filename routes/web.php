@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,7 @@ Route::post('/login', [LoginController::class, 'store']);
 Route::group(['middleware' => 'auth'], function () {
     Route::inertia('/', 'Dashboard');
     Route::resource('/clients', ClientController::class);
+    Route::resource('/projects', ProjectController::class);
     Route::post('/logout', [LoginController::class, 'destroy']);
     Route::post('/change-password', [LoginController::class, 'changePassword']);
 });

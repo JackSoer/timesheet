@@ -1,6 +1,6 @@
 <template>
+  <Head title="Login" />
   <main class="login">
-    <Head title="Login" />
     <PrimaryForm
       :title="'Login'"
       :handleSubmit="() => credentials.post('/login')"
