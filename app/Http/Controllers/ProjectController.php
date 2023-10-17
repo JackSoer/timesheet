@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Resources\ProjectResource;
+use App\Models\Client;
 use App\Models\Project;
 
 class ProjectController extends Controller
@@ -23,7 +25,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return inertia('AddProject');
+        $clients = Client::all();
+
+        return inertia('AddProject', compact('clients'));
     }
 
     /**
@@ -31,15 +35,9 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        //
-    }
+        Project::create($request->all());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Project $project)
-    {
-        //
+        return redirect('/projects');
     }
 
     /**
@@ -47,7 +45,11 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $project = new ProjectResource($project);
+
+        $clients = Client::all();
+
+        return inertia('EditProject', ['defaultProject' => $project, 'clients' => $clients]);
     }
 
     /**
@@ -55,7 +57,9 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $project->update($request->all());
+
+        return redirect('/projects');
     }
 
     /**
@@ -63,6 +67,6 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
     }
 }

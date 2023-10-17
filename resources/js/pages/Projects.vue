@@ -8,7 +8,7 @@
           <Link href="/projects/create" class="projects__add"><AddBtn /></Link>
         </div>
         <PrimaryTable
-          :headers="['Name', 'Project', 'Rate', 'Status', 'Actions']"
+          :headers="['Name', 'Client', 'Rate', 'Status', 'Actions']"
           v-if="projects.length"
         >
           <ProjectRow

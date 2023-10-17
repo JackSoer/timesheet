@@ -42,7 +42,6 @@ const handleChange = (newClient, isValidClient) => {
 
 const handleSubmit = () => {
   if (isValid) {
-    console.log(Boolean(client.status));
     client.put(`/clients/${client.id}`);
   }
 };

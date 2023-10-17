@@ -50,7 +50,7 @@ const destroy = async (id) => {
 .project-row {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
   &__item {
     padding: 10px 0;

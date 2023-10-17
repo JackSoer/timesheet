@@ -1,40 +1,49 @@
 <template>
-  <main class="add-project">
-    <Head title="Add project" />
+  <main class="edit-project">
+    <Head title="Edit project" />
     <ProjectForm
+      title="Edit Project"
       @update="handleChange"
       :handleSubmit="handleSubmit"
       :isLoading="project.processing"
+      :defaultproject="project"
+      btnText="Edit"
+      :withStatus="true"
       :clients="clients"
-      title="Add project"
-      btnText="Add"
+      :defaultProject="project"
     />
   </main>
 </template>
 
 <script setup>
 import ProjectForm from "@/components/ProjectForm.vue";
-import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 
-const { clients } = defineProps({
+const { defaultProject, clients } = defineProps({
+  defaultProject: {
+    type: Object,
+    required: true,
+  },
   clients: {
     type: Array,
     required: true,
   },
 });
 
-let project = useForm({
-  name: "",
-  rate: "",
-  clientId: null,
-});
+const formattedDefaultProject =
+  defaultProject.rate === null
+    ? { ...defaultProject, rate: "" }
+    : defaultProject;
 
-let isValid = false;
+let project = useForm(formattedDefaultProject);
+
+let isValid = true;
 
 const handleChange = (newProject, isValidProject) => {
   project.name = newProject.name;
   project.rate = newProject.rate;
+  project.status = newProject.status;
   project.clientId = newProject.clientId;
 
   isValid = isValidProject;
@@ -42,13 +51,13 @@ const handleChange = (newProject, isValidProject) => {
 
 const handleSubmit = () => {
   if (isValid) {
-    project.post("/projects");
+    project.put(`/projects/${project.id}`);
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.add-project {
+.edit-project {
   padding: 35px 0;
   width: 100%;
   min-height: 100vh;
