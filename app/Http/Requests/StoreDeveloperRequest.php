@@ -11,7 +11,7 @@ class StoreDeveloperRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,20 @@ class StoreDeveloperRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'first_name' => ['required', 'max:50', 'string'],
+            'last_name' => ['required', 'max:50', 'string'],
+            'rate' => ['nullable', 'numeric', 'between:-99999.99, 99999.99'],
+            'rate_percent' => ['nullable', 'numeric', 'between:0, 100'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'rate' => $this->rate,
+            'rate_percent' => $this->ratePercent,
+        ]);
     }
 }

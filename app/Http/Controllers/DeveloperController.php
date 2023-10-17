@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Developer;
 use App\Http\Requests\StoreDeveloperRequest;
 use App\Http\Requests\UpdateDeveloperRequest;
+use App\Http\Resources\DeveloperCollection;
+use App\Http\Resources\DeveloperResource;
+use App\Models\Developer;
 
 class DeveloperController extends Controller
 {
@@ -13,7 +15,9 @@ class DeveloperController extends Controller
      */
     public function index()
     {
-        //
+        $developers = new DeveloperCollection(Developer::all());
+
+        return inertia('Developers', compact('developers'));
     }
 
     /**
@@ -21,7 +25,7 @@ class DeveloperController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('AddDeveloper');
     }
 
     /**
@@ -29,15 +33,9 @@ class DeveloperController extends Controller
      */
     public function store(StoreDeveloperRequest $request)
     {
-        //
-    }
+        Developer::create($request->all());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Developer $developer)
-    {
-        //
+        return redirect('/developers');
     }
 
     /**
@@ -45,7 +43,9 @@ class DeveloperController extends Controller
      */
     public function edit(Developer $developer)
     {
-        //
+        $developer = new DeveloperResource($developer);
+
+        return inertia('EditDeveloper', ['defaultDeveloper' => $developer]);
     }
 
     /**
@@ -53,7 +53,9 @@ class DeveloperController extends Controller
      */
     public function update(UpdateDeveloperRequest $request, Developer $developer)
     {
-        //
+        $developer->update($request->all());
+
+        return redirect('/developers');
     }
 
     /**
@@ -61,6 +63,6 @@ class DeveloperController extends Controller
      */
     public function destroy(Developer $developer)
     {
-        //
+        $developer->delete();
     }
 }
