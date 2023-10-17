@@ -30,11 +30,11 @@
       :errors="v$.rate.$errors"
       :handleBlur="v$.rate.$touch"
     />
-    <Toggle
-      @change="handleChangeStatus"
-      :values="values"
-      name="Status"
+    <VueToggles
       v-if="withStatus"
+      v-model="project.status"
+      checkedText="Active"
+      uncheckedText="Inactive"
     />
     <PrimaryButton @click="handleSubmit" :btnProps="{ disabled: isLoading }">{{
       btnText
@@ -50,7 +50,7 @@ import { isNumberInRange } from "@/utils/numbersUtils";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required, maxLength } from "@vuelidate/validators";
 import PrimaryButton from "./UI/PrimaryButton.vue";
-import Toggle from "./Toggle.vue";
+import { VueToggles } from "vue-toggles";
 import PrimarySelect from "./UI/PrimarySelect.vue";
 import AddBtn from "./AddBtn.vue";
 import { Link } from "@inertiajs/vue3";
@@ -91,11 +91,6 @@ const defaultProjectCopy = JSON.parse(JSON.stringify(defaultProject));
 
 const project = reactive(defaultProjectCopy);
 
-const values = [
-  { value: 1, label: "Active", checked: project.status ? true : false },
-  { value: 0, label: "Inactive", checked: !project.status ? true : false },
-];
-
 const options = computed(() =>
   clients.map((client) => {
     return { value: client.id, text: client.name };
@@ -108,10 +103,6 @@ const validateRate = (value) => {
   }
 
   return true;
-};
-
-const handleChangeStatus = (selectedValue) => {
-  project.status = selectedValue;
 };
 
 const rules = {

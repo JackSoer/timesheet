@@ -37,11 +37,11 @@
       :errors="v$.ratePercent.$errors"
       :handleBlur="v$.ratePercent.$touch"
     />
-    <Toggle
-      @change="handleChangeStatus"
-      :values="values"
-      name="Status"
+    <VueToggles
       v-if="withStatus"
+      v-model="developer.status"
+      checkedText="Active"
+      uncheckedText="Inactive"
     />
     <PrimaryButton @click="handleSubmit" :btnProps="{ disabled: isLoading }">{{
       btnText
@@ -57,7 +57,7 @@ import { isNumberInRange } from "@/utils/numbersUtils";
 import useVuelidate from "@vuelidate/core";
 import { helpers, required, maxLength } from "@vuelidate/validators";
 import PrimaryButton from "./UI/PrimaryButton.vue";
-import Toggle from "./Toggle.vue";
+import { VueToggles } from "vue-toggles";
 
 const {
   defaultDeveloper,
@@ -92,11 +92,6 @@ const defaultDeveloperCopy = JSON.parse(JSON.stringify(defaultDeveloper));
 
 const developer = reactive(defaultDeveloperCopy);
 
-const values = [
-  { value: 1, label: "Active", checked: developer.status ? true : false },
-  { value: 0, label: "Inactive", checked: !developer.status ? true : false },
-];
-
 const validateRate = (value) => {
   if (value.trim() !== "") {
     return isNumberInRange(value, 99999.99, -99999.99);
@@ -111,10 +106,6 @@ const validateRatePercent = (value) => {
   }
 
   return true;
-};
-
-const handleChangeStatus = (selectedValue) => {
-  developer.status = selectedValue;
 };
 
 const rules = {

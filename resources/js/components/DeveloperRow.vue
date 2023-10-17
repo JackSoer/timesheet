@@ -10,7 +10,9 @@
       <p class="developer-row__text">{{ developer.rate }}</p>
     </td>
     <td class="developer-row__item">
-      <p class="developer-row__text">{{ developer.ratePercent }}%</p>
+      <p class="developer-row__text">
+        {{ developer.ratePercent ? developer.ratePercent + "%" : "" }}
+      </p>
     </td>
     <td class="developer-row__item">
       <p class="developer-row__text">
@@ -56,7 +58,7 @@ const destroy = async (id) => {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 
   &__item {
-    padding: 10px 0;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;

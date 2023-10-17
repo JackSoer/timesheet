@@ -64,6 +64,9 @@ const columnsTemplateClass = computed(() => {
     font-size: 18px;
     font-weight: 700;
     padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

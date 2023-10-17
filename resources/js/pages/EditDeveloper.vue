@@ -25,10 +25,15 @@ const { defaultDeveloper } = defineProps({
   },
 });
 
-const formattedDefaultDeveloper =
-  defaultDeveloper.rate === null
-    ? { ...defaultDeveloper, rate: "" }
-    : defaultDeveloper;
+let formattedDefaultDeveloper = defaultDeveloper;
+
+if (defaultDeveloper.rate === null) {
+  formattedDefaultDeveloper = { ...formattedDefaultDeveloper, rate: "" };
+}
+
+if (defaultDeveloper.ratePercent === null) {
+  formattedDefaultDeveloper = { ...formattedDefaultDeveloper, ratePercent: "" };
+}
 
 let developer = useForm(formattedDefaultDeveloper);
 

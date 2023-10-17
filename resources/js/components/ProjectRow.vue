@@ -53,7 +53,7 @@ const destroy = async (id) => {
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 
   &__item {
-    padding: 10px 0;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
