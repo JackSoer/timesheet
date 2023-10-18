@@ -171,7 +171,7 @@ const total = computed(() => {
   let total = "";
 
   if (workLog.hrs && workLog.rate) {
-    total = workLog.hrs * workLog.rate;
+    total = (workLog.hrs * workLog.rate).toFixed(2);
   }
 
   return total;

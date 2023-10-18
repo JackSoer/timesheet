@@ -11,7 +11,7 @@ class UpdateWorkLogRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,26 @@ class UpdateWorkLogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'date' => ['required', 'date', 'string'],
+            'developer_id' => ['required'],
+            'project_id' => ['required'],
+            'rate' => ['nullable'],
+            'hrs' => ['nullable', 'between:1, 24'],
+            'status' => ['nullable'],
+            'total' => ['nullable'],
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'date' => $this->date,
+            'developer_id' => $this->developerId,
+            'project_id' => $this->projectId,
+            'rate' => $this->rate,
+            'hrs' => $this->hrs,
+            'status' => $this->status,
+            'total' => $this->total,
+        ]);
     }
 }

@@ -18,7 +18,7 @@ class WorkLogResource extends JsonResource
             'id' => $this->id,
             'date' => $this->date,
             'developerId' => $this->developer_id,
-            'projectId' => $this->projectId,
+            'projectId' => $this->project_id,
             'rate' => $this->rate,
             'hrs' => $this->hrs,
             'total' => $this->total,

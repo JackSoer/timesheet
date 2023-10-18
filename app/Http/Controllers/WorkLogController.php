@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateWorkLogRequest;
 use App\Http\Resources\DeveloperCollection;
 use App\Http\Resources\ProjectCollection;
 use App\Http\Resources\WorkLogCollection;
+use App\Http\Resources\WorkLogResource;
 use App\Models\Developer;
 use App\Models\Project;
 use App\Models\WorkLog;
@@ -49,7 +50,12 @@ class WorkLogController extends Controller
      */
     public function edit(WorkLog $workLog)
     {
-        //
+        $workLog = new WorkLogResource($workLog);
+
+        $developers = new DeveloperCollection(Developer::all());
+        $projects = new ProjectCollection(Project::with('client')->get());
+
+        return inertia('EditWorkLog', ['defaultWorkLog' => $workLog, 'developers' => $developers, 'projects' => $projects]);
     }
 
     /**
@@ -57,7 +63,9 @@ class WorkLogController extends Controller
      */
     public function update(UpdateWorkLogRequest $request, WorkLog $workLog)
     {
-        //
+        $workLog->update($request->all());
+
+        return redirect('/work-logs');
     }
 
     /**
@@ -65,6 +73,6 @@ class WorkLogController extends Controller
      */
     public function destroy(WorkLog $workLog)
     {
-        //
+        $workLog->delete();
     }
 }

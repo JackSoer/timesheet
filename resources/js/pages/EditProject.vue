@@ -6,7 +6,6 @@
       @update="handleChange"
       :handleSubmit="handleSubmit"
       :isLoading="project.processing"
-      :defaultproject="project"
       btnText="Edit"
       :withStatus="true"
       :clients="clients"
