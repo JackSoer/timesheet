@@ -15,7 +15,7 @@
     <PrimaryInput
       label="Rate"
       v-model.trim="client.rate"
-      :inputProps="{ placeholder: '99999.99', id: 'rate' }"
+      :inputProps="{ placeholder: '99999', id: 'rate' }"
       :errors="v$.rate.$errors"
       :handleBlur="v$.rate.$touch"
     />
@@ -35,30 +35,35 @@
 import { reactive, watch } from "vue";
 import PrimaryForm from "./UI/PrimaryForm.vue";
 import PrimaryInput from "./UI/PrimaryInput.vue";
-import { isNumberInRange } from "@/utils/numbersUtils";
-import useVuelidate from "@vuelidate/core";
-import { helpers, required, maxLength } from "@vuelidate/validators";
 import PrimaryButton from "./UI/PrimaryButton.vue";
 import { VueToggles } from "vue-toggles";
 
-const { defaultClient, handleSubmit, btnText, title, isLoading, withStatus } =
-  defineProps({
-    defaultClient: {
-      type: Object,
-      default: {
-        name: "",
-        rate: "",
-      },
+const {
+  defaultClient,
+  handleSubmit,
+  btnText,
+  title,
+  isLoading,
+  withStatus,
+  v$,
+} = defineProps({
+  defaultClient: {
+    type: Object,
+    default: {
+      name: "",
+      rate: "",
     },
-    handleSubmit: {
-      type: Function,
-      required: true,
-    },
-    isLoading: Boolean,
-    title: String,
-    btnText: String,
-    withStatus: Boolean,
-  });
+  },
+  handleSubmit: {
+    type: Function,
+    required: true,
+  },
+  isLoading: Boolean,
+  title: String,
+  btnText: String,
+  withStatus: Boolean,
+  v$: Object,
+});
 
 const emit = defineEmits(["update"]);
 
@@ -66,29 +71,8 @@ const defaultClientCopy = JSON.parse(JSON.stringify(defaultClient));
 
 const client = reactive(defaultClientCopy);
 
-const validateRate = (value) => {
-  if (value.trim() !== "") {
-    return isNumberInRange(value, 99999.99, -99999.99);
-  }
-
-  return true;
-};
-
-const rules = {
-  name: { required, maxLength: maxLength(50) },
-  rate: {
-    validateRate: helpers.withMessage(
-      "Rate should be 99999.99 format",
-      validateRate
-    ),
-  },
-};
-
-const v$ = useVuelidate(rules, client);
-
-watch(client, async () => {
-  const isValid = await v$.value.$validate();
-  emit("update", client, isValid);
+watch(client, () => {
+  emit("update", client);
 });
 </script>
 

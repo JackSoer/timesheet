@@ -7,6 +7,7 @@
       :isLoading="developer.processing"
       title="Add developer"
       btnText="Add"
+      :v$="v$"
     />
   </main>
 </template>
@@ -15,6 +16,8 @@
 import DeveloperForm from "@/components/DeveloperForm.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, between } from "@vuelidate/validators";
 
 let developer = useForm({
   firstName: "",
@@ -23,18 +26,28 @@ let developer = useForm({
   ratePercent: "",
 });
 
-let isValid = false;
-
-const handleChange = (newDeveloper, isValidDeveloper) => {
-  developer.firstName = newDeveloper.firstName;
-  developer.lastName = newDeveloper.lastName;
-  developer.rate = newDeveloper.rate;
-  developer.ratePercent = newDeveloper.ratePercent;
-
-  isValid = isValidDeveloper;
+const rules = {
+  firstName: { required, maxLength: maxLength(50) },
+  lastName: { required, maxLength: maxLength(50) },
+  rate: {
+    between: between(0, 99999),
+  },
+  ratePercent: {
+    between: between(0, 100),
+  },
 };
 
-const handleSubmit = () => {
+const v$ = useVuelidate(rules, developer);
+
+const handleChange = (newDeveloper) => {
+  for (const key in newDeveloper) {
+    developer[key] = newDeveloper[key];
+  }
+};
+
+const handleSubmit = async () => {
+  const isValid = await v$.value.$validate();
+
   if (isValid) {
     developer.post("/developers");
   }

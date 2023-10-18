@@ -8,6 +8,7 @@
       @change="handleSelectChange"
       :value="modelValue"
       v-bind="selectProps"
+      @blur="handleBlur"
     >
       <option
         class="primary-select__option"
@@ -23,26 +24,34 @@
         {{ option.text }}
       </option>
     </select>
+    <div class="errors" v-if="errors?.length">
+      <p class="error" v-for="error in errors">
+        {{ error?.$message || error }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-const { options, modelValue, selectProps, label } = defineProps({
-  options: {
-    type: Array,
-    required: true,
-  },
-  modelValue: {
-    required: true,
-    default: "",
-  },
-  selectProps: {
-    type: Object,
-  },
-  label: {
-    type: String,
-  },
-});
+const { options, modelValue, selectProps, label, errors, handleBlur } =
+  defineProps({
+    options: {
+      type: Array,
+      required: true,
+    },
+    modelValue: {
+      required: true,
+      default: "",
+    },
+    selectProps: {
+      type: Object,
+    },
+    label: {
+      type: String,
+    },
+    errors: Array,
+    handleBlur: Function,
+  });
 
 const emit = defineEmits(["update:modelValue"]);
 
@@ -76,5 +85,11 @@ const handleSelectChange = (e) => {
   &__label {
     font-size: 12px;
   }
+}
+
+.errors {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 </style>

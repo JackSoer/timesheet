@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\WorkLog;
 use App\Http\Requests\StoreWorkLogRequest;
 use App\Http\Requests\UpdateWorkLogRequest;
+use App\Http\Resources\DeveloperCollection;
+use App\Http\Resources\ProjectCollection;
+use App\Http\Resources\WorkLogCollection;
+use App\Models\Developer;
+use App\Models\Project;
+use App\Models\WorkLog;
 
 class WorkLogController extends Controller
 {
@@ -13,7 +18,9 @@ class WorkLogController extends Controller
      */
     public function index()
     {
-        //
+        $workLogs = new WorkLogCollection(WorkLog::with('developer', 'project')->get());
+
+        return inertia('WorkLogs', compact('workLogs'));
     }
 
     /**
@@ -21,7 +28,10 @@ class WorkLogController extends Controller
      */
     public function create()
     {
-        //
+        $developers = new DeveloperCollection(Developer::all());
+        $projects = new ProjectCollection(Project::with('client')->get());
+
+        return inertia('AddWorkLog', compact('developers', 'projects'));
     }
 
     /**
@@ -29,15 +39,9 @@ class WorkLogController extends Controller
      */
     public function store(StoreWorkLogRequest $request)
     {
-        //
-    }
+        WorkLog::create($request->all());
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(WorkLog $workLog)
-    {
-        //
+        return redirect('/work-logs');
     }
 
     /**

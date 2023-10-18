@@ -7,6 +7,7 @@
       :isLoading="client.processing"
       title="Add Client"
       btnText="Add"
+      :v$="v$"
     />
   </main>
 </template>
@@ -15,22 +16,31 @@
 import ClientForm from "@/components/ClientForm.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, between } from "@vuelidate/validators";
 
 let client = useForm({
   name: "",
   rate: "",
 });
 
-let isValid = false;
-
-const handleChange = (newClient, isValidClient) => {
-  client.name = newClient.name;
-  client.rate = newClient.rate;
-
-  isValid = isValidClient;
+const rules = {
+  name: { required, maxLength: maxLength(50) },
+  rate: {
+    between: between(0, 99999),
+  },
 };
 
-const handleSubmit = () => {
+const v$ = useVuelidate(rules, client);
+
+const handleChange = (newClient) => {
+  client.name = newClient.name;
+  client.rate = newClient.rate;
+};
+
+const handleSubmit = async () => {
+  const isValid = await v$.value.$validate();
+
   if (isValid) {
     client.post("/clients");
   }

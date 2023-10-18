@@ -8,6 +8,7 @@
       :clients="clients"
       title="Add project"
       btnText="Add"
+      :v$="v$"
     />
   </main>
 </template>
@@ -16,6 +17,8 @@
 import ProjectForm from "@/components/ProjectForm.vue";
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, between } from "@vuelidate/validators";
 
 const { clients } = defineProps({
   clients: {
@@ -30,17 +33,25 @@ let project = useForm({
   clientId: null,
 });
 
-let isValid = false;
-
-const handleChange = (newProject, isValidProject) => {
-  project.name = newProject.name;
-  project.rate = newProject.rate;
-  project.clientId = newProject.clientId;
-
-  isValid = isValidProject;
+const rules = {
+  name: { required, maxLength: maxLength(50) },
+  rate: {
+    between: between(0, 99999),
+  },
+  clientId: { required },
 };
 
-const handleSubmit = () => {
+const v$ = useVuelidate(rules, project);
+
+const handleChange = (newProject) => {
+  for (const key in newProject) {
+    project[key] = newProject[key];
+  }
+};
+
+const handleSubmit = async () => {
+  const isValid = await v$.value.$validate();
+
   if (isValid) {
     project.post("/projects");
   }

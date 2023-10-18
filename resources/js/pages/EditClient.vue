@@ -9,6 +9,7 @@
       :defaultClient="client"
       btnText="Edit"
       :withStatus="true"
+      :v$="v$"
     />
   </main>
 </template>
@@ -17,6 +18,8 @@
 import ClientForm from "@/components/ClientForm.vue";
 import { Head } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, between } from "@vuelidate/validators";
 
 const { defaultClient } = defineProps({
   defaultClient: {
@@ -30,17 +33,24 @@ const formattedDefaultClient =
 
 let client = useForm(formattedDefaultClient);
 
-let isValid = true;
-
-const handleChange = (newClient, isValidClient) => {
-  client.name = newClient.name;
-  client.rate = newClient.rate;
-  client.status = newClient.status;
-
-  isValid = isValidClient;
+const rules = {
+  name: { required, maxLength: maxLength(50) },
+  rate: {
+    between: between(0, 99999),
+  },
 };
 
-const handleSubmit = () => {
+const v$ = useVuelidate(rules, client);
+
+const handleChange = (newClient) => {
+  for (const key in newClient) {
+    client[key] = newClient[key];
+  }
+};
+
+const handleSubmit = async () => {
+  const isValid = await v$.value.$validate();
+
   if (isValid) {
     client.put(`/clients/${client.id}`);
   }

@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('work_logs', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->unsignedBigInteger('developer_id');
             $table->unsignedBigInteger('project_id');
-            $table->foreign('developer_id')->references('id')->on('developers');
-            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('developer_id')->references('id')->on('developers')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->decimal('rate', 7, 2)->nullable();
             $table->decimal('hrs', 7, 2);
             $table->decimal('total', 12, 2)->nullable();
-            $table->integer('status')->default(100);
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\WorkLogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('/clients', ClientController::class);
     Route::resource('/projects', ProjectController::class);
     Route::resource('/developers', DeveloperController::class);
+    Route::resource('/work-logs', WorkLogController::class);
     Route::post('/logout', [LoginController::class, 'destroy']);
     Route::post('/change-password', [LoginController::class, 'changePassword']);
 });

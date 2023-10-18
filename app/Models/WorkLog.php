@@ -9,6 +9,8 @@ class WorkLog extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['date', 'developer_id', 'project_id', 'rate', 'hrs', 'total', 'status'];
+
     public function developer()
     {
         return $this->belongsTo(Developer::class);

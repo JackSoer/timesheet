@@ -9,6 +9,7 @@
       :defaultDeveloper="developer"
       btnText="Edit"
       :withStatus="true"
+      :v$="v$"
     />
   </main>
 </template>
@@ -17,6 +18,8 @@
 import DeveloperForm from "@/components/DeveloperForm.vue";
 import { Head } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, between } from "@vuelidate/validators";
 
 const { defaultDeveloper } = defineProps({
   defaultDeveloper: {
@@ -37,19 +40,28 @@ if (defaultDeveloper.ratePercent === null) {
 
 let developer = useForm(formattedDefaultDeveloper);
 
-let isValid = true;
-
-const handleChange = (newDeveloper, isValidDeveloper) => {
-  developer.firstName = newDeveloper.firstName;
-  developer.lastName = newDeveloper.lastName;
-  developer.rate = newDeveloper.rate;
-  developer.ratePercent = newDeveloper.ratePercent;
-  developer.status = newDeveloper.status;
-
-  isValid = isValidDeveloper;
+const rules = {
+  firstName: { required, maxLength: maxLength(50) },
+  lastName: { required, maxLength: maxLength(50) },
+  rate: {
+    between: between(0, 99999),
+  },
+  ratePercent: {
+    between: between(0, 100),
+  },
 };
 
-const handleSubmit = () => {
+const v$ = useVuelidate(rules, developer);
+
+const handleChange = (newDeveloper) => {
+  for (const key in newDeveloper) {
+    developer[key] = newDeveloper[key];
+  }
+};
+
+const handleSubmit = async () => {
+  const isValid = await v$.value.$validate();
+
   if (isValid) {
     developer.put(`/developers/${developer.id}`);
   }

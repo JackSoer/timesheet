@@ -23,7 +23,7 @@
 const { label, inputProps, errors, handleBlur, modelValue } = defineProps({
   label: String,
   inputProps: Object,
-  modelValue: String,
+  modelValue: [String, Number],
   errors: Array,
   handleBlur: Function,
 });
