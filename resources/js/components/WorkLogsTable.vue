@@ -1,7 +1,11 @@
 <template>
   <div class="work-logs-table">
     <h1 class="work-logs-table__title">{{ `${monthName} ${year}` }}</h1>
-    <SwitchMonthButton @update="handleMonth" />
+    <SwitchMonthButton
+      @update="handleMonth"
+      :currentDateProp="currentDate"
+      :loading="loading"
+    />
     <PrimaryTable
       :headers="headers"
       :doubleCell="{
@@ -13,6 +17,7 @@
         v-for="workLog in filledLogs"
         :workLog="workLog"
         :headers="headers"
+        v-if="!loading"
       />
     </PrimaryTable>
   </div>
@@ -27,14 +32,20 @@ import { router } from "@inertiajs/vue3";
 import DeveloperLogsRow from "./DeveloperLogsRow.vue";
 import { getArrayOfAllDatesInMonth } from "../utils/dates";
 
-const { workLogs } = defineProps({
+const { workLogs, date, isLoading } = defineProps({
   workLogs: {
     type: Array,
     required: true,
   },
+  date: String,
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 });
+const loading = ref(isLoading);
 
-let currentDate = ref(new Date());
+let currentDate = ref(date ? new Date(date) : new Date());
 
 const arrayDates = computed(() => getArrayOfAllDatesInMonth(currentDate.value));
 
@@ -76,9 +87,11 @@ const handleMonth = (newMonthName, newDaysInMonth, newYear, newCurrentDate) => {
   headers = getMonthDaysArray(newDaysInMonth.value);
 };
 
-// watch(monthName, () => {
-//   router.get(`/work-logs/${year.value}/${monthName.value}`);
-// });
+watch(monthName, () => {
+  loading.value = true;
+
+  router.get(`/work-logs/${year.value}/${monthName.value}`);
+});
 </script>
 
 <style lang="scss" scoped>

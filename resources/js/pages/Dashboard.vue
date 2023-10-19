@@ -10,7 +10,7 @@
           />
           <DashboardCard :title="`${unpaid.toFixed(2)}$`" text="Total unpaid" />
         </div>
-        <WorkLogsTable :workLogs="workLogsByDevelopers" />
+        <WorkLogsTable :workLogs="workLogsByDevelopers" :date="date" />
       </div>
     </main>
   </PrimaryLayout>
@@ -22,7 +22,7 @@ import PrimaryLayout from "../layouts/PrimaryLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import WorkLogsTable from "@/components/WorkLogsTable.vue";
 
-const { paidThisMonth, unpaid, workLogsByDevelopers } = defineProps({
+const { paidThisMonth, unpaid, workLogsByDevelopers, date } = defineProps({
   paidThisMonth: {
     type: Number,
     required: true,
@@ -35,6 +35,7 @@ const { paidThisMonth, unpaid, workLogsByDevelopers } = defineProps({
     type: Array,
     required: true,
   },
+  date: String,
 });
 </script>
 

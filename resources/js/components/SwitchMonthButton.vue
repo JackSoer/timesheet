@@ -1,8 +1,14 @@
 <template>
   <div class="switch-month-btns">
-    <PrimaryButton class="switch-month-btns__btn" @click="prevMonth"
+    <PrimaryButton
+      class="switch-month-btns__btn"
+      @click="prevMonth"
+      :btnProps="{ disabled: loading }"
       >Prev</PrimaryButton
-    ><PrimaryButton class="switch-month-btns__btn" @click="nextMonth"
+    ><PrimaryButton
+      class="switch-month-btns__btn"
+      @click="nextMonth"
+      :btnProps="{ disabled: loading }"
       >Next</PrimaryButton
     >
   </div>
@@ -20,8 +26,17 @@ import { ref, watch } from "vue";
 import PrimaryButton from "./UI/PrimaryButton.vue";
 
 const emit = defineEmits(["update"]);
+const { currentDateProp, loading } = defineProps({
+  currentDateProp: {
+    type: Object,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+});
 
-let currentDate = new Date();
+let currentDate = currentDateProp ? currentDateProp : new Date();
 
 const year = ref(getYear(currentDate));
 const daysInMonth = ref(getDaysInMonth(currentDate));

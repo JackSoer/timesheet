@@ -19,16 +19,24 @@ class DashboardController extends Controller
         $workLogsByDevelopers = [];
 
         if ($month && $year) {
-            $workLogsThisMonth = $this->getWorkLogsByMonth($month, $year);
+            $monthNumber = Carbon::parse("1 $month")->month;
+
+            $date = Carbon::create($year, $monthNumber, 1);
+
+            $workLogsThisMonth = $this->getWorkLogsByMonth($date->month, $date->year);
+
+            $workLogsByDevelopers = $this->getWorkLogsByDevelopers($workLogsThisMonth);
+
+            return inertia('Dashboard', compact('paidThisMonth', 'unpaid', 'workLogsByDevelopers', 'date'));
         } else {
             $currentMonth = Carbon::now();
 
             $workLogsThisMonth = $this->getWorkLogsByMonth($currentMonth->month, $currentMonth->year);
+
+            $workLogsByDevelopers = $this->getWorkLogsByDevelopers($workLogsThisMonth);
+
+            return inertia('Dashboard', compact('paidThisMonth', 'unpaid', 'workLogsByDevelopers'));
         }
-
-        $workLogsByDevelopers = $this->getWorkLogsByDevelopers($workLogsThisMonth);
-
-        return inertia('Dashboard', compact('paidThisMonth', 'unpaid', 'workLogsByDevelopers'));
     }
 
     private function getWorkLogsByDevelopers($workLogs)
