@@ -7,7 +7,7 @@
       :isLoading="workLog.processing"
       :developers="developers"
       :projects="projects"
-      title="Add work log"
+      title="Add Work Log"
       btnText="Add"
       :defaultWorkLog="workLog"
       :v$="v$"

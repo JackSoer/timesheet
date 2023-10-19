@@ -5,7 +5,7 @@
       @update="handleChange"
       :handleSubmit="handleSubmit"
       :isLoading="developer.processing"
-      title="Add developer"
+      title="Add Developer"
       btnText="Add"
       :v$="v$"
     />

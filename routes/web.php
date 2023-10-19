@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProjectController;
@@ -21,11 +22,12 @@ Route::inertia('/login', 'Login')->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::inertia('/', 'Dashboard');
+    Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/clients', ClientController::class);
     Route::resource('/projects', ProjectController::class);
     Route::resource('/developers', DeveloperController::class);
     Route::resource('/work-logs', WorkLogController::class);
+    Route::get('/work-logs/{year}/{month}', [DashboardController::class, 'index'])->where(['year' => '\d{4}', 'month' => '(?:January|February|March|April|May|June|July|August|September|October|November|December)']);;
     Route::post('/logout', [LoginController::class, 'destroy']);
     Route::post('/change-password', [LoginController::class, 'changePassword']);
 });

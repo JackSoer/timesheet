@@ -8,8 +8,23 @@
     <thead class="primary-table__head">
       <tr
         class="primary-table__row"
-        :style="{ gridTemplateColumns: columnsTemplateClass }"
+        :style="{
+          gridTemplateColumns: doubleCell
+            ? `repeat(${headers.length + 1}, 1fr)`
+            : `repeat(${headers.length}, 1fr)`,
+        }"
       >
+        <th
+          v-if="doubleCell"
+          class="primary-table__column-title primary-table__column-title--double"
+        >
+          <p class="primary-table__column-title-item">
+            {{ doubleCell.firstText }}
+          </p>
+          <p class="primary-table__column-title-item">
+            {{ doubleCell.secondText }}
+          </p>
+        </th>
         <th class="primary-table__column-title" v-for="header in headers">
           {{ header }}
         </th>
@@ -22,26 +37,18 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-
-const { title, headers } = defineProps({
+const { title, headers, doubleCell } = defineProps({
   title: String,
   headers: {
     type: Array,
     required: true,
   },
-});
-
-const columnsTemplateClass = computed(() => {
-  let templateClass = "";
-
-  headers.forEach(() => (templateClass += " 1fr"));
-
-  return templateClass;
+  doubleCell: Object,
 });
 </script>
 
 <style lang="scss" scoped>
+@import "../../../scss/var";
 .primary-table {
   width: 100%;
 
@@ -67,6 +74,43 @@ const columnsTemplateClass = computed(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &--double {
+      display: flex;
+      flex-direction: column;
+      padding: 3px;
+      position: relative;
+      width: 120px;
+      height: 55px;
+
+      &::after {
+        content: "";
+        display: block;
+        background-color: rgb(19, 15, 255);
+        position: absolute;
+        height: 1px;
+        width: 130px;
+        transform: rotate(24deg);
+      }
+    }
+
+    &-item {
+      font-size: 11px;
+      font-weight: 700;
+      position: absolute;
+
+      &:first-child {
+        align-self: flex-end;
+        top: 10px;
+        right: 10px;
+      }
+
+      &:last-child {
+        align-self: flex-end;
+        bottom: 10px;
+        left: 10px;
+      }
+    }
   }
 }
 </style>

@@ -2,7 +2,7 @@
   <main class="edit-developer">
     <Head title="Edit Developer" />
     <DeveloperForm
-      title="Edit developer"
+      title="Edit Developer"
       @update="handleChange"
       :handleSubmit="handleSubmit"
       :isLoading="developer.processing"
