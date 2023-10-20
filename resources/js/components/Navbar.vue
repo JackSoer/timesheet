@@ -28,11 +28,6 @@
     </menu>
     <menu class="navbar__user-menu">
       <div class="navbar__user-info">
-        <img
-          src="/images/defAvatar.jpg"
-          alt="Avatar"
-          class="navbar__user-img"
-        />
         <p class="navbar__username">{{ $page.props?.user?.login }}</p>
       </div>
       <div class="navbar__user-btns">
@@ -98,12 +93,12 @@ const isOpen = ref(false);
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0;
+  right: 0;
   z-index: 1000;
 
   background-color: $mainTextColor;
   display: flex;
-  transform: translateX(-100%);
+  transform: translateX(100%);
   transition: 0.3s all ease;
 
   &--active {
@@ -191,8 +186,8 @@ const isOpen = ref(false);
 
   &__btn {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 5px;
+    right: 25px;
     width: 30px;
     height: 30px;
     z-index: 8000;

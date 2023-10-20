@@ -45,7 +45,6 @@ onMounted(() => {
   transform: translateY(30px);
   transition: transform 0.5s, opacity 0.5s, background-color 0.3s,
     box-shadow 0.3s;
-  cursor: pointer;
 
   &__count {
     font-size: 40px;

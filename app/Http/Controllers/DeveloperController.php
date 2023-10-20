@@ -25,7 +25,9 @@ class DeveloperController extends Controller
      */
     public function create()
     {
-        return inertia('AddDeveloper');
+        $prevUrl = url()->previous();
+
+        return inertia('AddDeveloper', compact('prevUrl'));
     }
 
     /**

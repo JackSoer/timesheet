@@ -27,7 +27,9 @@ class ProjectController extends Controller
     {
         $clients = Client::all();
 
-        return inertia('AddProject', compact('clients'));
+        $prevUrl = url()->previous();
+
+        return inertia('AddProject', compact('clients', 'prevUrl'));
     }
 
     /**

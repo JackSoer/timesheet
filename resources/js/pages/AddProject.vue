@@ -1,30 +1,34 @@
 <template>
-  <main class="add-project">
-    <Head title="Add project" />
-    <ProjectForm
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="project.processing"
-      :clients="clients"
-      title="Add project"
-      btnText="Add"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="add-project">
+      <Head title="Add project" />
+      <ProjectForm
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="project.processing"
+        :clients="clients"
+        title="Add project"
+        btnText="Add"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
 import ProjectForm from "@/components/ProjectForm.vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
-const { clients } = defineProps({
+const { clients, prevUrl } = defineProps({
   clients: {
     type: Array,
     required: true,
   },
+  prevUrl: String,
 });
 
 let project = useForm({
@@ -54,6 +58,14 @@ const handleSubmit = async () => {
 
   if (isValid) {
     project.post("/projects");
+
+    if (!prevUrl) {
+      router.visit("/projects");
+    } else if (prevUrl.includes("/clients/create")) {
+      router.visit("/projects");
+    } else {
+      router.visit(prevUrl);
+    }
   }
 };
 </script>

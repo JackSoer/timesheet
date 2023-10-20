@@ -23,7 +23,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return inertia('AddClient');
+        $prevUrl = url()->previous();
+
+        return inertia('AddClient', compact('prevUrl'));
     }
 
     /**
@@ -32,8 +34,6 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request)
     {
         Client::create($request->all());
-
-        return redirect('/clients');
     }
 
     /**

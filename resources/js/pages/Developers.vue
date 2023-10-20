@@ -50,7 +50,7 @@ const { developers } = defineProps({
 <style lang="scss" scoped>
 @import "../../scss/var";
 .developers {
-  padding: 35px 0;
+  padding: 50px 0;
 
   &__title {
     font-size: 40px;

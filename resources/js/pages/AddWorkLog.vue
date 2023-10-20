@@ -1,18 +1,20 @@
 <template>
-  <main class="add-work-log">
-    <Head title="Add Work Log" />
-    <WorkLogForm
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="workLog.processing"
-      :developers="developers"
-      :projects="projects"
-      title="Add Work Log"
-      btnText="Add"
-      :defaultWorkLog="workLog"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="add-work-log">
+      <Head title="Add Work Log" />
+      <WorkLogForm
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="workLog.processing"
+        :developers="developers"
+        :projects="projects"
+        title="Add Work Log"
+        btnText="Add"
+        :defaultWorkLog="workLog"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
@@ -22,6 +24,7 @@ import { Head } from "@inertiajs/vue3";
 import { format } from "date-fns";
 import useVuelidate from "@vuelidate/core";
 import { required, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
 const { developers, projects } = defineProps({
   developers: {

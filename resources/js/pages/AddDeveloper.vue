@@ -1,23 +1,30 @@
 <template>
-  <main class="add-developer">
-    <Head title="Add Developer" />
-    <DeveloperForm
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="developer.processing"
-      title="Add Developer"
-      btnText="Add"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="add-developer">
+      <Head title="Add Developer" />
+      <DeveloperForm
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="developer.processing"
+        title="Add Developer"
+        btnText="Add"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
 import DeveloperForm from "@/components/DeveloperForm.vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+
+const { prevUrl } = defineProps({
+  prevUrl: String,
+});
 
 let developer = useForm({
   firstName: "",
@@ -50,6 +57,12 @@ const handleSubmit = async () => {
 
   if (isValid) {
     developer.post("/developers");
+
+    if (!prevUrl) {
+      router.visit("/developers");
+    } else {
+      router.visit(prevUrl);
+    }
   }
 };
 </script>

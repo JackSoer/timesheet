@@ -1,23 +1,30 @@
 <template>
-  <main class="add-client">
-    <Head title="Add client" />
-    <ClientForm
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="client.processing"
-      title="Add Client"
-      btnText="Add"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="add-client">
+      <Head title="Add client" />
+      <ClientForm
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="client.processing"
+        title="Add Client"
+        btnText="Add"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
 import ClientForm from "@/components/ClientForm.vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+
+const { prevUrl } = defineProps({
+  prevUrl: String,
+});
 
 let client = useForm({
   name: "",
@@ -43,6 +50,12 @@ const handleSubmit = async () => {
 
   if (isValid) {
     client.post("/clients");
+
+    if (!prevUrl) {
+      router.visit("/clients");
+    } else {
+      router.visit(prevUrl);
+    }
   }
 };
 </script>

@@ -1,18 +1,20 @@
 <template>
-  <main class="edit-project">
-    <Head title="Edit project" />
-    <ProjectForm
-      title="Edit Project"
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="project.processing"
-      btnText="Edit"
-      :withStatus="true"
-      :clients="clients"
-      :defaultProject="project"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="edit-project">
+      <Head title="Edit project" />
+      <ProjectForm
+        title="Edit Project"
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="project.processing"
+        btnText="Save"
+        :withStatus="true"
+        :clients="clients"
+        :defaultProject="project"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
@@ -21,6 +23,7 @@ import { Head } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
 const { defaultProject, clients } = defineProps({
   defaultProject: {

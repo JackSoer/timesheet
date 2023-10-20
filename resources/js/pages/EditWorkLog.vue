@@ -1,18 +1,20 @@
 <template>
-  <main class="edit-work-log">
-    <Head title="Edit Work Log" />
-    <WorkLogForm
-      title="Edit Work Log"
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="workLog.processing"
-      :defaultWorkLog="workLog"
-      btnText="Edit"
-      :projects="projects"
-      :developers="developers"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="edit-work-log">
+      <Head title="Edit Work Log" />
+      <WorkLogForm
+        title="Edit Work Log"
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="workLog.processing"
+        :defaultWorkLog="workLog"
+        btnText="Save"
+        :projects="projects"
+        :developers="developers"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
@@ -21,6 +23,7 @@ import { Head } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
 const { defaultWorkLog, developers, projects } = defineProps({
   defaultWorkLog: {

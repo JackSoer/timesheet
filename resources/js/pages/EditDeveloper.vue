@@ -1,17 +1,19 @@
 <template>
-  <main class="edit-developer">
-    <Head title="Edit Developer" />
-    <DeveloperForm
-      title="Edit Developer"
-      @update="handleChange"
-      :handleSubmit="handleSubmit"
-      :isLoading="developer.processing"
-      :defaultDeveloper="developer"
-      btnText="Edit"
-      :withStatus="true"
-      :v$="v$"
-    />
-  </main>
+  <PrimaryLayout>
+    <main class="edit-developer">
+      <Head title="Edit Developer" />
+      <DeveloperForm
+        title="Edit Developer"
+        @update="handleChange"
+        :handleSubmit="handleSubmit"
+        :isLoading="developer.processing"
+        :defaultDeveloper="developer"
+        btnText="Save"
+        :withStatus="true"
+        :v$="v$"
+      />
+    </main>
+  </PrimaryLayout>
 </template>
 
 <script setup>
@@ -20,6 +22,7 @@ import { Head } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
+import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
 
 const { defaultDeveloper } = defineProps({
   defaultDeveloper: {
