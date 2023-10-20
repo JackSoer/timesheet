@@ -9,12 +9,14 @@
       {{ workLog.developer }}
     </td>
     <td v-for="log in workLog.logs" class="developer-logs-row__cell">
-      {{ formatHrs(log.hrs) }}
+      {{ formatNumber(log.hrs) }}
     </td>
   </tr>
 </template>
 
 <script setup>
+import { formatNumber } from "@/utils/numbersUtils";
+
 const { workLog, headers } = defineProps({
   workLog: {
     type: Object,
@@ -25,15 +27,6 @@ const { workLog, headers } = defineProps({
     required: true,
   },
 });
-
-const formatHrs = (hrs) => {
-  if (hrs === "") {
-    return hrs;
-  }
-
-  const parsedHrs = parseFloat(hrs);
-  return parsedHrs % 1 === 0 ? parsedHrs.toString() : parsedHrs.toFixed(2);
-};
 </script>
 
 <style lang="scss" scoped>

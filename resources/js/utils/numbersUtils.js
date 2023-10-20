@@ -19,3 +19,14 @@ export function intToDecimal(number) {
     return number;
   }
 }
+
+export function formatNumber(number) {
+  if (number === "") {
+    return number;
+  }
+
+  const parsedNumber = parseFloat(number);
+  return parsedNumber % 1 === 0
+    ? parsedNumber.toString()
+    : parsedNumber.toFixed(2);
+}

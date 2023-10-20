@@ -5,10 +5,13 @@
       <div class="container">
         <div class="dashboard__cards">
           <DashboardCard
-            :title="`${paidThisMonth.toFixed(2)}$`"
+            :title="`${formatNumber(paidThisMonth)}$`"
             :text="`Paid in ${monthName}`"
           />
-          <DashboardCard :title="`${unpaid.toFixed(2)}$`" text="Total unpaid" />
+          <DashboardCard
+            :title="`${formatNumber(unpaid)}$`"
+            text="Total unpaid"
+          />
         </div>
         <WorkLogsTable :workLogs="workLogsByDevelopers" :date="date" />
       </div>
@@ -22,6 +25,7 @@ import PrimaryLayout from "../layouts/PrimaryLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import WorkLogsTable from "@/components/WorkLogsTable.vue";
 import { format } from "date-fns";
+import { formatNumber } from "@/utils/numbersUtils";
 
 const { paidThisMonth, unpaid, workLogsByDevelopers, date } = defineProps({
   paidThisMonth: {
