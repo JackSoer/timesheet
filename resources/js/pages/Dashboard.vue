@@ -6,7 +6,7 @@
         <div class="dashboard__cards">
           <DashboardCard
             :title="`${paidThisMonth.toFixed(2)}$`"
-            text="Paid this month"
+            :text="`Paid in ${monthName}`"
           />
           <DashboardCard :title="`${unpaid.toFixed(2)}$`" text="Total unpaid" />
         </div>
@@ -21,6 +21,7 @@ import DashboardCard from "@/components/DashboardCard.vue";
 import PrimaryLayout from "../layouts/PrimaryLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import WorkLogsTable from "@/components/WorkLogsTable.vue";
+import { format } from "date-fns";
 
 const { paidThisMonth, unpaid, workLogsByDevelopers, date } = defineProps({
   paidThisMonth: {
@@ -37,6 +38,9 @@ const { paidThisMonth, unpaid, workLogsByDevelopers, date } = defineProps({
   },
   date: String,
 });
+
+let currentDate = new Date();
+const monthName = format(currentDate, "MMMM");
 </script>
 
 <style lang="scss" scoped>

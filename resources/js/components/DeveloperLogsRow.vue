@@ -27,6 +27,10 @@ const { workLog, headers } = defineProps({
 });
 
 const formatHrs = (hrs) => {
+  if (hrs === "") {
+    return hrs;
+  }
+
   const parsedHrs = parseFloat(hrs);
   return parsedHrs % 1 === 0 ? parsedHrs.toString() : parsedHrs.toFixed(2);
 };

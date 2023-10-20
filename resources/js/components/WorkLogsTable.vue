@@ -12,13 +12,20 @@
         firstText: 'Day',
         secondText: 'Developer',
       }"
+      :class="{
+        loading: loading,
+      }"
     >
       <DeveloperLogsRow
         v-for="workLog in filledLogs"
         :workLog="workLog"
         :headers="headers"
-        v-if="!loading"
       />
+      <tr class="not-found" v-if="filledLogs.length < 1">
+        <td class="not-found__cell">
+          There are no work logs for this month yet.
+        </td>
+      </tr>
     </PrimaryTable>
   </div>
 </template>
@@ -56,7 +63,7 @@ const filledLogs = workLogs.map((log) => {
     if (matchingLog) {
       return matchingLog;
     } else {
-      return { date, hrs: "0" };
+      return { date, hrs: "" };
     }
   });
 
@@ -105,6 +112,17 @@ watch(monthName, () => {
     text-align: center;
     font-size: 30px;
     font-weight: 700;
+  }
+}
+
+.not-found {
+  &__cell {
+    font-size: 25px;
+    font-weight: 500;
+
+    text-align: center;
+    color: black;
+    padding: 10px;
   }
 }
 </style>
