@@ -26,7 +26,12 @@
     <PrimaryInput
       label="Rate"
       v-model.trim="developer.rate"
-      :inputProps="{ placeholder: '99999', id: 'rate' }"
+      :inputProps="{
+        placeholder: '99999.00',
+        id: 'rate',
+        type: 'number',
+        step: 0.01,
+      }"
       :errors="v$.rate.$errors"
       :handleBlur="v$.rate.$touch"
     />

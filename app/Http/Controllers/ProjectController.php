@@ -26,10 +26,11 @@ class ProjectController extends Controller
     public function create()
     {
         $clients = Client::all();
+        $projects = Project::all();
 
         $prevUrl = url()->previous();
 
-        return inertia('AddProject', compact('clients', 'prevUrl'));
+        return inertia('AddProject', compact('clients', 'prevUrl', 'projects'));
     }
 
     /**
@@ -50,8 +51,9 @@ class ProjectController extends Controller
         $project = new ProjectResource($project);
 
         $clients = Client::all();
+        $projects = Project::all();
 
-        return inertia('EditProject', ['defaultProject' => $project, 'clients' => $clients]);
+        return inertia('EditProject', ['defaultProject' => $project, 'clients' => $clients, 'projects' => $projects]);
     }
 
     /**

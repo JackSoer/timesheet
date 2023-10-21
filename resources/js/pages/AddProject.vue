@@ -11,6 +11,23 @@
         btnText="Add"
         :v$="v$"
       />
+      <PrimaryModal v-model:isOpen="warningOpen">
+        <div class="add-project__modal">
+          <p class="add-project__warning">
+            Project with this name already exists. Are you sure you want to save
+            it?
+          </p>
+          <PrimaryButton
+            class="add-project__save"
+            @click="
+              () => {
+                handleSubmit(e, true);
+              }
+            "
+            >Save</PrimaryButton
+          >
+        </div>
+      </PrimaryModal>
     </main>
   </PrimaryLayout>
 </template>
@@ -22,13 +39,20 @@ import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import { ref } from "vue";
+import PrimaryButton from "@/components/UI/PrimaryButton.vue";
+import PrimaryModal from "@/components/UI/PrimaryModal.vue";
 
-const { clients, prevUrl } = defineProps({
+const { clients, prevUrl, projects } = defineProps({
   clients: {
     type: Array,
     required: true,
   },
   prevUrl: String,
+  projects: {
+    type: Array,
+    required: true,
+  },
 });
 
 let project = useForm({
@@ -36,6 +60,8 @@ let project = useForm({
   rate: "",
   clientId: null,
 });
+
+const warningOpen = ref(false);
 
 const rules = {
   name: { required, maxLength: maxLength(50) },
@@ -53,15 +79,35 @@ const handleChange = (newProject) => {
   }
 };
 
-const handleSubmit = async () => {
+const isExistingProject = () => {
+  let isExistingProject = false;
+
+  projects.forEach((existingProject) => {
+    if (existingProject.name === project.name) {
+      isExistingProject = true;
+    }
+  });
+
+  return isExistingProject;
+};
+
+const handleSubmit = async (e, confirmed) => {
   const isValid = await v$.value.$validate();
+
+  if (isExistingProject() && !confirmed) {
+    warningOpen.value = true;
+
+    return;
+  }
 
   if (isValid) {
     project.post("/projects");
 
-    if (!prevUrl) {
-      router.visit("/projects");
-    } else if (prevUrl.includes("/clients/create")) {
+    if (
+      !prevUrl ||
+      prevUrl.includes("/clients/create") ||
+      prevUrl.includes("/projects/create")
+    ) {
       router.visit("/projects");
     } else {
       router.visit(prevUrl);
@@ -78,5 +124,23 @@ const handleSubmit = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &__warning {
+    text-align: center;
+    font-size: 16px;
+    color: black;
+  }
+
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__save {
+    padding: 5px 50px;
+  }
 }
 </style>

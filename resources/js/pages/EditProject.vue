@@ -13,6 +13,23 @@
         :defaultProject="project"
         :v$="v$"
       />
+      <PrimaryModal v-model:isOpen="warningOpen">
+        <div class="edit-project__modal">
+          <p class="edit-project__warning">
+            Project with this name already exists. Are you sure you want to save
+            it?
+          </p>
+          <PrimaryButton
+            class="edit-project__save"
+            @click="
+              () => {
+                handleSubmit(e, true);
+              }
+            "
+            >Save</PrimaryButton
+          >
+        </div>
+      </PrimaryModal>
     </main>
   </PrimaryLayout>
 </template>
@@ -24,13 +41,20 @@ import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import PrimaryModal from "@/components/UI/PrimaryModal.vue";
+import PrimaryButton from "@/components/UI/PrimaryButton.vue";
+import { ref } from "vue";
 
-const { defaultProject, clients } = defineProps({
+const { defaultProject, clients, projects } = defineProps({
   defaultProject: {
     type: Object,
     required: true,
   },
   clients: {
+    type: Array,
+    required: true,
+  },
+  projects: {
     type: Array,
     required: true,
   },
@@ -42,6 +66,8 @@ const formattedDefaultProject =
     : defaultProject;
 
 let project = useForm(formattedDefaultProject);
+
+const warningOpen = ref(false);
 
 const rules = {
   name: { required, maxLength: maxLength(50) },
@@ -59,8 +85,29 @@ const handleChange = (newProject) => {
   }
 };
 
-const handleSubmit = async () => {
+const isExistingProject = () => {
+  let isExistingProject = false;
+
+  projects.forEach((existingProject) => {
+    if (
+      existingProject.name === project.name &&
+      project.name !== formattedDefaultProject.name
+    ) {
+      isExistingProject = true;
+    }
+  });
+
+  return isExistingProject;
+};
+
+const handleSubmit = async (e, confirmed) => {
   const isValid = await v$.value.$validate();
+
+  if (isExistingProject() && !confirmed) {
+    warningOpen.value = true;
+
+    return;
+  }
 
   if (isValid) {
     project.put(`/projects/${project.id}`);
@@ -76,5 +123,23 @@ const handleSubmit = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &__warning {
+    text-align: center;
+    font-size: 16px;
+    color: black;
+  }
+
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__save {
+    padding: 5px 50px;
+  }
 }
 </style>

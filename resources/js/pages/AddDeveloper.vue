@@ -58,7 +58,11 @@ const handleSubmit = async () => {
   if (isValid) {
     developer.post("/developers");
 
-    if (!prevUrl) {
+    if (
+      !prevUrl ||
+      prevUrl.includes("/developers/create") ||
+      prevUrl.endsWith("/projects")
+    ) {
       router.visit("/developers");
     } else {
       router.visit(prevUrl);
