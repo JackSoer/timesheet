@@ -33,6 +33,7 @@ const handleInput = (e) => {
   let value = e.target.value;
 
   emit("update:modelValue", value);
+  emit("change");
 };
 </script>
 

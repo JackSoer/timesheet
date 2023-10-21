@@ -60,6 +60,7 @@ import PrimaryForm from "./UI/PrimaryForm.vue";
 import PrimaryInput from "./UI/PrimaryInput.vue";
 import PrimaryButton from "./UI/PrimaryButton.vue";
 import { VueToggles } from "vue-toggles";
+import { intToDecimal } from "@/utils/numbersUtils";
 
 const {
   defaultDeveloper,
@@ -99,6 +100,13 @@ const developer = reactive(defaultDeveloperCopy);
 watch(developer, () => {
   emit("update", developer);
 });
+
+watch(
+  () => developer.rate,
+  () => {
+    developer.rate = intToDecimal(developer.rate);
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

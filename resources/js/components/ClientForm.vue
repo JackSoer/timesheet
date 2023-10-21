@@ -42,6 +42,7 @@ import PrimaryForm from "./UI/PrimaryForm.vue";
 import PrimaryInput from "./UI/PrimaryInput.vue";
 import PrimaryButton from "./UI/PrimaryButton.vue";
 import { VueToggles } from "vue-toggles";
+import { intToDecimal } from "@/utils/numbersUtils";
 
 const {
   defaultClient,
@@ -79,6 +80,13 @@ const client = reactive(defaultClientCopy);
 watch(client, () => {
   emit("update", client);
 });
+
+watch(
+  () => client.rate,
+  () => {
+    client.rate = intToDecimal(client.rate);
+  }
+);
 </script>
 
 <style lang="scss" scoped></style>

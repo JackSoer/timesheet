@@ -58,6 +58,7 @@ import { VueToggles } from "vue-toggles";
 import PrimarySelect from "./UI/PrimarySelect.vue";
 import AddBtn from "./AddBtn.vue";
 import { Link } from "@inertiajs/vue3";
+import { intToDecimal } from "@/utils/numbersUtils";
 
 const {
   clients,
@@ -106,6 +107,13 @@ const options = computed(() =>
 watch(project, () => {
   emit("update", project);
 });
+
+watch(
+  () => project.rate,
+  () => {
+    project.rate = intToDecimal(project.rate);
+  }
+);
 </script>
 
 <style lang="scss" scoped>

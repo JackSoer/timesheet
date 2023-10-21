@@ -9,12 +9,10 @@ export function isNumberInRange(input, max, min) {
 }
 
 export function intToDecimal(number) {
-  const numericValue = parseFloat(number);
+  const numericValue = parseFloat(number).toFixed(2);
 
   if (!isNaN(numericValue)) {
-    let formattedNumber = numericValue.toFixed(2);
-
-    return formattedNumber;
+    return numericValue;
   } else {
     return number;
   }

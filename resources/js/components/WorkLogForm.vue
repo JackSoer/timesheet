@@ -38,18 +38,24 @@
         ><AddBtn
       /></Link>
     </div>
-    <PrimaryInput
-      label="Rate"
-      v-model.trim="workLog.rate"
-      :inputProps="{
-        placeholder: '99999.00',
-        id: 'rate',
-        type: 'number',
-        step: 0.01,
-      }"
-      :errors="v$.rate.$errors"
-      :handleBlur="v$.rate.$touch"
-    />
+    <div class="rate-box">
+      <PrimaryInput
+        @change="rateDescription = ''"
+        label="Rate"
+        v-model.trim="workLog.rate"
+        :inputProps="{
+          placeholder: '99999.00',
+          id: 'rate',
+          type: 'number',
+          step: 0.01,
+        }"
+        :errors="v$.rate.$errors"
+        :handleBlur="v$.rate.$touch"
+      />
+      <p class="rate-box__desc" v-if="rateDescription">
+        {{ rateDescription }} rate
+      </p>
+    </div>
     <PrimaryInput
       label="Hours"
       v-model.trim="workLog.hrs"
@@ -81,7 +87,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, watch } from "vue";
+import { computed, reactive, ref, watch } from "vue";
 import PrimaryForm from "./UI/PrimaryForm.vue";
 import PrimaryInput from "./UI/PrimaryInput.vue";
 import PrimaryButton from "./UI/PrimaryButton.vue";
@@ -89,6 +95,7 @@ import { VueToggles } from "vue-toggles";
 import PrimarySelect from "./UI/PrimarySelect.vue";
 import AddBtn from "./AddBtn.vue";
 import { Link } from "@inertiajs/vue3";
+import { intToDecimal } from "@/utils/numbersUtils";
 
 const {
   developers,
@@ -134,6 +141,7 @@ const emit = defineEmits(["update"]);
 const defaultWorkLogCopy = JSON.parse(JSON.stringify(defaultWorkLog));
 
 const workLog = reactive(defaultWorkLogCopy);
+const rateDescription = ref("");
 
 const optionsDevelopers = computed(() =>
   developers.map((developer) => {
@@ -156,6 +164,8 @@ const rate = computed(() => {
   );
 
   if (developer?.rate) {
+    rateDescription.value = "Developer";
+
     return developer?.rate;
   }
 
@@ -164,10 +174,14 @@ const rate = computed(() => {
   );
 
   if (project?.rate) {
+    rateDescription.value = "Project";
+
     return project?.rate;
   }
 
   if (project?.client?.rate) {
+    rateDescription.value = "Client";
+
     return project?.client?.rate;
   }
 });
@@ -191,8 +205,19 @@ watch(rate, () => {
 });
 
 watch(workLog, () => {
+  if (!workLog.rate) {
+    rateDescription.value = "";
+  }
+
   emit("update", workLog);
 });
+
+watch(
+  () => workLog.rate,
+  () => {
+    workLog.rate = intToDecimal(workLog.rate);
+  }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -205,6 +230,14 @@ watch(workLog, () => {
 
   &__add {
     margin-top: auto;
+  }
+}
+
+.rate-box {
+  &__desc {
+    margin-top: 4px;
+    font-size: 10px;
+    color: gray;
   }
 }
 </style>
