@@ -22,10 +22,8 @@ class StoreDeveloperRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required', 'max:50', 'string'],
-            'last_name' => ['required', 'max:50', 'string'],
-            'rate' => ['nullable', 'numeric', 'between:-99999.99, 99999.99'],
-            'rate_percent' => ['nullable', 'numeric', 'between:0, 100'],
+            'first_name' => ['required'],
+            'last_name' => ['required'],
         ];
     }
 
