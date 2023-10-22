@@ -6,7 +6,7 @@
         title="Edit Project"
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="project.processing"
+        :isLoading="isLoading"
         btnText="Save"
         :withStatus="true"
         :clients="clients"
@@ -68,6 +68,7 @@ const formattedDefaultProject =
 let project = useForm(formattedDefaultProject);
 
 const warningOpen = ref(false);
+const isLoading = ref(false);
 
 const rules = {
   name: { required, maxLength: maxLength(50) },
@@ -103,13 +104,17 @@ const isExistingProject = () => {
 const handleSubmit = async (e, confirmed) => {
   const isValid = await v$.value.$validate();
 
-  if (isExistingProject() && !confirmed) {
+  if (isExistingProject() && !confirmed && isValid) {
     warningOpen.value = true;
 
     return;
   }
 
   if (isValid) {
+    warningOpen.value = false;
+
+    isLoading.value = !project.processing;
+
     project.put(`/projects/${project.id}`);
   }
 };

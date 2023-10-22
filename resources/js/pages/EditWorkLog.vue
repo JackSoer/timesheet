@@ -6,7 +6,7 @@
         title="Edit Work Log"
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="workLog.processing"
+        :isLoading="isLoading"
         :defaultWorkLog="workLog"
         btnText="Save"
         :projects="projects"
@@ -24,6 +24,7 @@ import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import { ref } from "vue";
 
 const { defaultWorkLog, developers, projects } = defineProps({
   defaultWorkLog: {
@@ -51,6 +52,7 @@ if (defaultWorkLog.status === 100) {
 }
 
 let workLog = useForm(formattedDefaultWorkLog);
+const isLoading = ref(false);
 
 const rules = {
   date: { required },
@@ -79,6 +81,8 @@ const handleSubmit = async () => {
   const isValid = await v$.value.$validate();
 
   if (isValid) {
+    isLoading.value = !workLog.processing;
+
     workLog.put(`/work-logs/${workLog.id}`);
   }
 };

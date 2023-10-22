@@ -6,7 +6,7 @@
         title="Edit Developer"
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="developer.processing"
+        :isLoading="isLoading"
         :defaultDeveloper="developer"
         btnText="Save"
         :withStatus="true"
@@ -23,6 +23,7 @@ import { useForm } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import { ref } from "vue";
 
 const { defaultDeveloper } = defineProps({
   defaultDeveloper: {
@@ -42,6 +43,7 @@ if (defaultDeveloper.ratePercent === null) {
 }
 
 let developer = useForm(formattedDefaultDeveloper);
+const isLoading = ref(false);
 
 const rules = {
   firstName: { required, maxLength: maxLength(50) },
@@ -66,6 +68,8 @@ const handleSubmit = async () => {
   const isValid = await v$.value.$validate();
 
   if (isValid) {
+    isLoading.value = !developer.processing;
+
     developer.put(`/developers/${developer.id}`);
   }
 };

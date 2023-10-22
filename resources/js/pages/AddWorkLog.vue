@@ -5,7 +5,7 @@
       <WorkLogForm
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="workLog.processing"
+        :isLoading="isLoading"
         :developers="developers"
         :projects="projects"
         title="Add Work Log"
@@ -25,6 +25,7 @@ import { format } from "date-fns";
 import useVuelidate from "@vuelidate/core";
 import { required, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import { ref } from "vue";
 
 const { developers, projects } = defineProps({
   developers: {
@@ -46,6 +47,8 @@ let workLog = useForm({
   total: "",
   status: null,
 });
+
+const isLoading = ref(false);
 
 const rules = {
   date: { required },
@@ -74,6 +77,8 @@ const handleSubmit = async () => {
   const isValid = await v$.value.$validate();
 
   if (isValid) {
+    isLoading.value = !workLog.processing;
+
     workLog.post("/work-logs");
   }
 };

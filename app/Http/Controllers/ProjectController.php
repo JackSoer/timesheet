@@ -39,8 +39,6 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         Project::create($request->all());
-
-        return redirect('/projects');
     }
 
     /**

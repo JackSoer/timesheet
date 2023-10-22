@@ -5,7 +5,7 @@
       <ProjectForm
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="project.processing"
+        :isLoading="isLoading"
         :clients="clients"
         title="Add project"
         btnText="Add"
@@ -55,6 +55,8 @@ const { clients, prevUrl, projects } = defineProps({
   },
 });
 
+const isLoading = ref(false);
+
 let project = useForm({
   name: "",
   rate: "",
@@ -94,13 +96,17 @@ const isExistingProject = () => {
 const handleSubmit = async (e, confirmed) => {
   const isValid = await v$.value.$validate();
 
-  if (isExistingProject() && !confirmed) {
+  if (isExistingProject() && !confirmed && isValid) {
     warningOpen.value = true;
 
     return;
   }
 
   if (isValid) {
+    warningOpen.value = false;
+
+    isLoading.value = !project.processing;
+
     project.post("/projects");
 
     if (

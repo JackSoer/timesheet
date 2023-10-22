@@ -5,7 +5,7 @@
       <DeveloperForm
         @update="handleChange"
         :handleSubmit="handleSubmit"
-        :isLoading="developer.processing"
+        :isLoading="isLoading"
         title="Add Developer"
         btnText="Add"
         :v$="v$"
@@ -21,6 +21,7 @@ import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
+import { ref } from "vue";
 
 const { prevUrl } = defineProps({
   prevUrl: String,
@@ -32,6 +33,8 @@ let developer = useForm({
   rate: "",
   ratePercent: "",
 });
+
+const isLoading = ref(false);
 
 const rules = {
   firstName: { required, maxLength: maxLength(50) },
@@ -56,6 +59,8 @@ const handleSubmit = async () => {
   const isValid = await v$.value.$validate();
 
   if (isValid) {
+    isLoading.value = !developer.processing;
+
     developer.post("/developers");
 
     if (

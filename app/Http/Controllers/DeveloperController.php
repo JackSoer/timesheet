@@ -36,8 +36,6 @@ class DeveloperController extends Controller
     public function store(StoreDeveloperRequest $request)
     {
         Developer::create($request->all());
-
-        return redirect('/developers');
     }
 
     /**
