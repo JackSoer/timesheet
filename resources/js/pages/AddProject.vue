@@ -39,7 +39,7 @@ import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import PrimaryButton from "@/components/UI/PrimaryButton.vue";
 import PrimaryModal from "@/components/UI/PrimaryModal.vue";
 
@@ -108,18 +108,25 @@ const handleSubmit = async (e, confirmed) => {
     isLoading.value = !project.processing;
 
     project.post("/projects");
-
-    if (
-      !prevUrl ||
-      prevUrl.includes("/clients/create") ||
-      prevUrl.includes("/projects/create")
-    ) {
-      router.visit("/projects");
-    } else {
-      router.visit(prevUrl);
-    }
   }
 };
+
+watch(
+  () => project.processing,
+  () => {
+    if (!project.processing) {
+      if (
+        !prevUrl ||
+        prevUrl.includes("/clients/create") ||
+        prevUrl.includes("/projects/create")
+      ) {
+        router.visit("/projects");
+      } else {
+        router.visit(prevUrl);
+      }
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>

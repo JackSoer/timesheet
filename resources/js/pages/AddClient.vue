@@ -21,7 +21,7 @@ import { Head } from "@inertiajs/vue3";
 import useVuelidate from "@vuelidate/core";
 import { required, maxLength, between } from "@vuelidate/validators";
 import PrimaryLayout from "@/layouts/PrimaryLayout.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const { prevUrl } = defineProps({
   prevUrl: String,
@@ -55,18 +55,25 @@ const handleSubmit = async () => {
     isLoading.value = !client.processing;
 
     client.post("/clients");
-
-    if (
-      !prevUrl ||
-      prevUrl.includes("/clients/create") ||
-      prevUrl.endsWith("/projects")
-    ) {
-      router.visit("/clients");
-    } else {
-      router.visit(prevUrl);
-    }
   }
 };
+
+watch(
+  () => client.processing,
+  () => {
+    if (!client.processing) {
+      if (
+        !prevUrl ||
+        prevUrl.includes("/clients/create") ||
+        prevUrl.endsWith("/projects")
+      ) {
+        router.visit("/clients");
+      } else {
+        router.visit(prevUrl);
+      }
+    }
+  }
+);
 </script>
 
 <style lang="scss" scoped>
