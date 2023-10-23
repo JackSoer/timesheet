@@ -26,10 +26,11 @@
       /></Link>
     </div>
     <PrimaryInput
+      @input="handleFormatRate"
       label="Rate"
       v-model.trim="project.rate"
       :inputProps="{
-        placeholder: '99999.00',
+        placeholder: '1.00',
         id: 'rate',
         type: 'number',
         step: 0.01,
@@ -104,16 +105,13 @@ const options = computed(() =>
   })
 );
 
+const handleFormatRate = () => {
+  project.rate = intToDecimal(project.rate);
+};
+
 watch(project, () => {
   emit("update", project);
 });
-
-watch(
-  () => project.rate,
-  () => {
-    project.rate = intToDecimal(project.rate);
-  }
-);
 </script>
 
 <style lang="scss" scoped>

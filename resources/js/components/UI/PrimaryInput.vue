@@ -27,13 +27,13 @@ const { label, inputProps, errors, handleBlur, modelValue } = defineProps({
   errors: Array,
   handleBlur: Function,
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "handleChange"]);
 
 const handleInput = (e) => {
   let value = e.target.value;
 
   emit("update:modelValue", value);
-  emit("change");
+  emit("handleChange");
 };
 </script>
 

@@ -40,11 +40,12 @@
     </div>
     <div class="rate-box">
       <PrimaryInput
-        @change="rateDescription = ''"
+        @input="handleFormatRate"
+        @handleChange="rateDescription = ''"
         label="Rate"
         v-model.trim="workLog.rate"
         :inputProps="{
-          placeholder: '99999.00',
+          placeholder: '1.00',
           id: 'rate',
           type: 'number',
           step: 0.01,
@@ -163,7 +164,7 @@ const rate = computed(() => {
     (developer) => developer.id === Number(workLog.developerId)
   );
 
-  if (developer?.rate) {
+  if (developer?.rate && parseFloat(developer?.rate) !== 0) {
     rateDescription.value = "Developer";
 
     return developer?.rate;
@@ -173,18 +174,22 @@ const rate = computed(() => {
     (project) => project.id === Number(workLog.projectId)
   );
 
-  if (project?.rate) {
+  if (project?.rate && parseFloat(project?.rate) !== 0) {
     rateDescription.value = "Project";
 
     return project?.rate;
   }
 
-  if (project?.client?.rate) {
+  if (project?.client?.rate && parseFloat(project?.client?.rate) !== 0) {
     rateDescription.value = "Client";
 
     return project?.client?.rate;
   }
 });
+
+const handleFormatRate = () => {
+  workLog.rate = intToDecimal(workLog.rate);
+};
 
 const total = computed(() => {
   let total = "";
@@ -211,13 +216,6 @@ watch(workLog, () => {
 
   emit("update", workLog);
 });
-
-watch(
-  () => workLog.rate,
-  () => {
-    workLog.rate = intToDecimal(workLog.rate);
-  }
-);
 </script>
 
 <style lang="scss" scoped>

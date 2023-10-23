@@ -9,13 +9,25 @@ export function isNumberInRange(input, max, min) {
 }
 
 export function intToDecimal(number) {
-  const numericValue = parseFloat(number).toFixed(2);
-
-  if (!isNaN(numericValue)) {
-    return numericValue;
-  } else {
+  if (!number) {
     return number;
   }
+
+  const cleanValue = number.replace(/[^\d.]/g, "");
+
+  const [dollars, cents] = cleanValue.split(".");
+
+  const trimmedDollars = dollars.slice(0, 5);
+
+  const trimmedCents = cents ? cents.slice(0, 2) : "";
+
+  const paddedCents = trimmedCents.padEnd(2, "0");
+
+  const formattedValue = `${trimmedDollars}${
+    paddedCents ? `.${paddedCents}` : ""
+  }`;
+
+  return parseFloat(formattedValue).toFixed(2);
 }
 
 export function formatNumber(number) {

@@ -24,10 +24,11 @@
       :handleBlur="v$.lastName.$touch"
     />
     <PrimaryInput
+      @input="handleFormatRate"
       label="Rate"
       v-model.trim="developer.rate"
       :inputProps="{
-        placeholder: '99999.00',
+        placeholder: '1.00',
         id: 'rate',
         type: 'number',
         step: 0.01,
@@ -101,12 +102,9 @@ watch(developer, () => {
   emit("update", developer);
 });
 
-watch(
-  () => developer.rate,
-  () => {
-    developer.rate = intToDecimal(developer.rate);
-  }
-);
+const handleFormatRate = () => {
+  developer.rate = intToDecimal(developer.rate);
+};
 </script>
 
 <style lang="scss" scoped></style>
