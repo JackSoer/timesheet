@@ -10,6 +10,7 @@
     viewBox="0 0 45.402 45.402"
     xml:space="preserve"
     class="plus-icon"
+    data-testid="plus-icon"
   >
     <g>
       <path

@@ -3,6 +3,7 @@
     class="add-btn"
     :class="btnProps?.disabled ? 'add-btn__disabled' : null"
     v-bind="btnProps"
+    data-testid="add-button"
   >
     <PlusIcon class="add-btn__icon" />
   </button>

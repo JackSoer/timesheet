@@ -1,7 +1,11 @@
 <template>
-  <form class="primary-form" @submit.prevent="handleSubmit">
+  <form
+    class="primary-form"
+    @submit.prevent="handleSubmit"
+    data-testid="primary-form"
+  >
     <h1 class="primary-form__title" v-if="title">{{ title }}</h1>
-    <div class="primary-form__box">
+    <div class="primary-form__box" v-if="$slots.default">
       <slot />
     </div>
   </form>

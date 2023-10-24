@@ -1,5 +1,10 @@
 <template>
-  <div class="overlay" v-if="isOpen" :class="{ 'enter-active': isOpen }">
+  <div
+    class="overlay"
+    v-if="isOpen"
+    :class="{ 'enter-active': isOpen }"
+    data-testid="modal"
+  >
     <div class="modal">
       <PrimaryButton class="modal__close" @click="handleClose">x</PrimaryButton>
       <slot />
@@ -21,7 +26,7 @@ const { isOpen } = defineProps({
 const emit = defineEmits(["update:isOpen"]);
 
 const handleClose = () => {
-  emit("update:isOpen", isOpen);
+  emit("update:isOpen", false);
 };
 </script>
 
