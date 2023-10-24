@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.2",
+    "@inertiajs/inertia-vue3": "^0.6.0",
     "@testing-library/vue": "^7.0.0",
     "@vue/test-utils": "^2.4.1",
     "@vue/vue3-jest": "28",

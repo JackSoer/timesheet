@@ -1,9 +1,14 @@
 import { render, fireEvent } from "@testing-library/vue";
 import ChangePasswordForm from "./ChangePasswordForm.vue";
+import { config } from "@vue/test-utils";
 
-jest.mock("@inertiajs/vue3", () => ({
+config.global.mocks = {
+  $t: () => "",
+};
+
+jest.mock("@inertiajs/inertia-vue3", () => ({
   __esModule: true,
-  ...jest.requireActual("@inertiajs/vue3"),
+  ...jest.requireActual("@inertiajs/inertia-vue3"),
   useForm: () => ({
     currentPassword: "",
     newPassword: "",

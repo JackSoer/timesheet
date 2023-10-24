@@ -8,8 +8,5 @@ module.exports = {
     "^.+\\.js$": "babel-jest",
     "^.+\\.vue$": "@vue/vue3-jest",
   },
-  moduleNameMapper: {
-    "^@inertiajs/vue3$": "<rootDir>/__mocks__/@inertiajs/vue3.js",
-  },
   modulePaths: ["./"],
 };
