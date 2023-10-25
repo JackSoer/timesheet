@@ -22,6 +22,7 @@
     <td class="developer-row__item">
       <Link :href="`/developers/${developer.id}/edit`"><EditBtn /></Link>
       <DeleteBtn
+        data-testid="delete-button"
         @click="destroy(developer.id)"
         :btnProps="{ disabled: deleteIsLoading }"
       />

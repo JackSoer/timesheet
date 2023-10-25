@@ -12,6 +12,7 @@ test("Render select with label and options", async () => {
       label: "Select Label",
       options,
       selectProps: { id: "test-select" },
+      modelValue: "",
     },
   });
 

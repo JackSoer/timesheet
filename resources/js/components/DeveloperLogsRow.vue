@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { formatNumber } from "@/utils/numbersUtils";
+import { formatNumber } from "../utils/numbersUtils";
 
 const { workLog, headers } = defineProps({
   workLog: {

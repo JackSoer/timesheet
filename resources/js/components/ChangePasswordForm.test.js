@@ -6,9 +6,9 @@ config.global.mocks = {
   $t: () => "",
 };
 
-jest.mock("@inertiajs/inertia-vue3", () => ({
+jest.mock("@inertiajs/vue3", () => ({
   __esModule: true,
-  ...jest.requireActual("@inertiajs/inertia-vue3"),
+  ...jest.requireActual("@inertiajs/vue3"),
   useForm: () => ({
     currentPassword: "",
     newPassword: "",

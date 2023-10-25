@@ -4,6 +4,7 @@
       type="radio"
       class="primary-radio__item"
       :value="value"
+      :id="value"
       @change="handleChange"
       :name="name"
       :checked="checked"

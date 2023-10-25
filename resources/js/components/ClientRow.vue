@@ -14,6 +14,7 @@
     <td class="client-row__item">
       <Link :href="`/clients/${client.id}/edit`"><EditBtn /></Link>
       <DeleteBtn
+        data-testid="delete-button"
         @click="destroy(client.id)"
         :btnProps="{ disabled: deleteIsLoading }"
       />

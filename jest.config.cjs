@@ -7,6 +7,9 @@ module.exports = {
   transform: {
     "^.+\\.js$": "babel-jest",
     "^.+\\.vue$": "@vue/vue3-jest",
+    "^.+\\.tsx?$": "ts-jest",
   },
-  modulePaths: ["./"],
+  roots: ["<rootDir>"],
+  modulePaths: ["<rootDir>"],
+  moduleDirectories: ["node_modules"],
 };
