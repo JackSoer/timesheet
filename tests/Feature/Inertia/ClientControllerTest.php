@@ -70,11 +70,7 @@ class ClientControllerTest extends TestCase
         $response = $this->post(route('clients.store'), $clientData);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('clients', [
-            'name' => 'name',
-            'rate' => 222,
-            'status' => 1,
-        ]);
+        $this->assertDatabaseHas('clients', $clientData);
     }
 
     public function test_edit_method_displays_edit_client_page()

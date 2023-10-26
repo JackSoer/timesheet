@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_id' => fake()->randomElement([1, 2]),
+            'client_id' => Client::factory(),
             'name' => fake()->name(),
             'rate' => fake()->randomNumber(2),
             'status' => fake()->boolean(),

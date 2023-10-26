@@ -39,7 +39,7 @@ class DashboardController extends Controller
         }
     }
 
-    private function getWorkLogsByDevelopers($workLogs)
+    public function getWorkLogsByDevelopers($workLogs)
     {
         $workLogsByDevelopers = [];
 
@@ -82,7 +82,7 @@ class DashboardController extends Controller
         return $workLogsByDevelopers;
     }
 
-    private function getWorkLogsByMonth($month, $year)
+    public function getWorkLogsByMonth($month, $year)
     {
         $workLogsThisMonth = new WorkLogCollection(WorkLog::whereMonth('date', $month)
                 ->whereYear('date', $year)
@@ -91,7 +91,7 @@ class DashboardController extends Controller
         return $workLogsThisMonth;
     }
 
-    private function getPaidThisMonthAmount()
+    public function getPaidThisMonthAmount()
     {
         $currentMonth = Carbon::now()->month;
 
@@ -109,7 +109,7 @@ class DashboardController extends Controller
         return $paidThisMonth;
     }
 
-    private function getUnpaidAmount()
+    public function getUnpaidAmount()
     {
         $workLogs = WorkLog::all();
 
