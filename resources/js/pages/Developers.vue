@@ -1,11 +1,11 @@
 <template>
   <PrimaryLayout>
     <main class="developers">
-      <Head title="Developers" />
+      <Head title="Volunteers" />
       <div class="container">
         <div class="developers__top">
-          <h1 class="developers__title">Developers</h1>
-          <Link href="/developers/create" class="developers__add"
+          <h1 class="developers__title">Volunteers</h1>
+          <Link href="/volunteers/create" class="developers__add"
             ><AddBtn
           /></Link>
         </div>
@@ -26,7 +26,7 @@
             :key="developer.id"
           />
         </PrimaryTable>
-        <p class="developers__not-found" v-else>Developers not found</p>
+        <p class="developers__not-found" v-else>Volunteers not found</p>
       </div>
     </main>
   </PrimaryLayout>

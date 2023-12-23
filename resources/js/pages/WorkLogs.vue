@@ -12,7 +12,7 @@
         <PrimaryTable
           :headers="[
             'Date',
-            'Developer',
+            'Volunteer',
             'Project',
             'Rate',
             'Hrs',

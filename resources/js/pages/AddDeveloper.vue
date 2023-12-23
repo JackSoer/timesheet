@@ -1,12 +1,12 @@
 <template>
   <PrimaryLayout>
     <main class="add-developer">
-      <Head title="Add Developer" />
+      <Head title="Add Volunteer" />
       <DeveloperForm
         @update="handleChange"
         :handleSubmit="handleSubmit"
         :isLoading="isLoading"
-        title="Add Developer"
+        title="Add Volunteer"
         btnText="Add"
         :v$="v$"
       />
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
   if (isValid) {
     isLoading.value = !developer.processing;
 
-    developer.post("/developers");
+    developer.post("/volunteers");
   }
 };
 
@@ -74,7 +74,7 @@ watch(
         prevUrl.includes("/clients/create") ||
         prevUrl.endsWith("/projects")
       ) {
-        router.visit("/developers");
+        router.visit("/volunteers");
       } else {
         router.visit(prevUrl);
       }

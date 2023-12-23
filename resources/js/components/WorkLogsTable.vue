@@ -10,7 +10,7 @@
       :headers="headers"
       :doubleCell="{
         firstText: 'Day',
-        secondText: 'Developer',
+        secondText: 'Volunteer',
       }"
       :class="{
         loading: loading,

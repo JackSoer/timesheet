@@ -25,7 +25,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/clients', ClientController::class);
     Route::resource('/projects', ProjectController::class);
-    Route::resource('/developers', DeveloperController::class);
+    Route::resource('/volunteers', DeveloperController::class);
     Route::resource('/work-logs', WorkLogController::class);
     Route::get('/work-logs/{year}/{month}', [DashboardController::class, 'index'])->where(['year' => '\d{4}', 'month' => '(?:January|February|March|April|May|June|July|August|September|October|November|December)']);
     Route::post('/logout', [LoginController::class, 'destroy']);

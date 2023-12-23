@@ -41,8 +41,10 @@ class DeveloperController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Developer $developer)
+    public function edit(string $id)
     {
+        $developer = Developer::find($id);
+
         $developer = new DeveloperResource($developer);
 
         return inertia('EditDeveloper', ['defaultDeveloper' => $developer]);
@@ -51,18 +53,22 @@ class DeveloperController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDeveloperRequest $request, Developer $developer)
+    public function update(UpdateDeveloperRequest $request, string $id)
     {
+        $developer = Developer::find($id);
+
         $developer->update($request->all());
 
-        return redirect('/developers');
+        return redirect('/volunteers');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Developer $developer)
+    public function destroy(string $id)
     {
+        $developer = Developer::find($id);
+
         $developer->delete();
     }
 }

@@ -20,7 +20,7 @@
       </p>
     </td>
     <td class="developer-row__item">
-      <Link :href="`/developers/${developer.id}/edit`"><EditBtn /></Link>
+      <Link :href="`/volunteers/${developer.id}/edit`"><EditBtn /></Link>
       <DeleteBtn
         data-testid="delete-button"
         @click="destroy(developer.id)"
@@ -48,7 +48,7 @@ const { developer } = defineProps({
 const destroy = async (id) => {
   deleteIsLoading.value = true;
 
-  router.delete(`/developers/${id}`);
+  router.delete(`/volunteers/${id}`);
 };
 </script>
 

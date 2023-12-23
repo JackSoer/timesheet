@@ -15,13 +15,13 @@
     <div class="work-log-form-add-developer">
       <PrimarySelect
         :options="optionsDevelopers"
-        label="Developer"
+        label="Volunteer"
         :selectProps="{ id: 'Developer', required: true }"
         v-model="workLog.developerId"
         :errors="v$.developerId.$errors"
         :handleBlur="v$.developerId.$touch"
       />
-      <Link href="/developers/create" class="work-log-form-add-developer__add"
+      <Link href="/volunteers/create" class="work-log-form-add-developer__add"
         ><AddBtn
       /></Link>
     </div>
@@ -165,7 +165,7 @@ const rate = computed(() => {
   );
 
   if (developer?.rate && parseFloat(developer?.rate) !== 0) {
-    rateDescription.value = "Developer";
+    rateDescription.value = "Volunteer";
 
     return developer?.rate;
   }

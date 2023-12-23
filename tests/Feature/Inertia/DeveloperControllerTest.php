@@ -94,7 +94,7 @@ class DeveloperControllerTest extends TestCase
     {
         $developer = Developer::factory()->create();
 
-        $response = $this->get("/developers/$developer->id/edit");
+        $response = $this->get("/volunteers/$developer->id/edit");
 
         $response->assertStatus(200);
 
@@ -110,7 +110,7 @@ class DeveloperControllerTest extends TestCase
         $developer = Developer::factory()->create();
         $updatedData = $this->getDeveloperData();
 
-        $response = $this->put("/developers/$developer->id", $updatedData);
+        $response = $this->put("/volunteers/$developer->id", $updatedData);
 
         $this->assertDatabaseHas('developers', $this->getDeveloperDataFromDB());
         $response->assertStatus(302);
@@ -120,7 +120,7 @@ class DeveloperControllerTest extends TestCase
     {
         $developer = Developer::factory()->create();
 
-        $response = $this->delete("/developers/{$developer->id}");
+        $response = $this->delete("/volunteers/{$developer->id}");
 
         $response->assertStatus(200);
         $this->assertDatabaseMissing('developers', ['id' => $developer->id]);

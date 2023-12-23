@@ -23,7 +23,7 @@
       <Link class="navbar__link" href="/">Dashboard</Link>
       <Link class="navbar__link" href="/clients">Clients</Link>
       <Link class="navbar__link" href="/projects">Projects</Link>
-      <Link class="navbar__link" href="/developers">Developers</Link>
+      <Link class="navbar__link" href="/volunteers">Volunteers</Link>
       <Link class="navbar__link" href="/work-logs">Work Logs</Link>
     </menu>
     <menu class="navbar__user-menu">

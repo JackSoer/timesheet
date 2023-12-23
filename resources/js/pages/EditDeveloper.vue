@@ -1,9 +1,9 @@
 <template>
   <PrimaryLayout>
     <main class="edit-developer">
-      <Head title="Edit Developer" />
+      <Head title="Edit Volunteer" />
       <DeveloperForm
-        title="Edit Developer"
+        title="Edit Volunteer"
         @update="handleChange"
         :handleSubmit="handleSubmit"
         :isLoading="isLoading"
@@ -70,7 +70,7 @@ const handleSubmit = async () => {
   if (isValid) {
     isLoading.value = !developer.processing;
 
-    developer.put(`/developers/${developer.id}`);
+    developer.put(`/volunteers/${developer.id}`);
   }
 };
 </script>
